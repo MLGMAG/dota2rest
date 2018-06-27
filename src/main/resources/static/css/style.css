@@ -1,0 +1,13 @@
+.data {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.indent {
+    margin-bottom: 30px;
+}

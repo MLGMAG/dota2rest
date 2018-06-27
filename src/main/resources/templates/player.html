@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Player</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="panel"
+                 th:if="${player} != null"
+                 th:object="${player}">
+
+                <div class="panel-heading" style="margin-top: 60px;">
+                    <h4 class="text-center" th:text="*{playerProfile.name}"></h4>
+                </div>
+
+                <div class="panel-body" style="margin-top: 60px;">
+
+                    <div class="row indent">
+                        <div class="col text-center title">Id:</div>
+                        <div class="col text-center data" th:text="*{playerProfile.steamId32}"></div>
+                    </div>
+
+                    <div class="row indent">
+                        <div class="col text-center title">Name:</div>
+                        <div class="col text-center data" th:text="*{playerProfile.name}"></div>
+                    </div>
+
+                    <div class="row indent">
+                        <div class="col text-center title">Persona name:</div>
+                        <div class="col text-center data" th:text="*{playerProfile.personaName}"></div>
+                    </div>
+
+                    <div class="row indent">
+                        <div class="col text-center title">Steam Url:</div>
+                        <div class="col text-center data" th:text="*{playerProfile.steamUrl}"></div>
+                    </div>
+
+                    <div class="row indent">
+                        <div class="col text-center title">Solo mmr:</div>
+                        <div class="col text-center data" th:text="*{solo_competitive_rank}"></div>
+                    </div>
+
+                    <div class="row indent">
+                        <div class="col text-center title">Competitive mmr:</div>
+                        <div class="col text-center data" th:text="*{competitive_rank}"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
