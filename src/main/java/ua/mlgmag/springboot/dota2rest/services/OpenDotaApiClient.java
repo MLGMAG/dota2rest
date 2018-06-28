@@ -1,5 +1,6 @@
 package ua.mlgmag.springboot.dota2rest.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import ua.mlgmag.springboot.dota2rest.dto.PlayerDto;
@@ -13,6 +14,7 @@ public class OpenDotaApiClient {
 
     private final RestTemplate restTemplate;
 
+    @Autowired
     public OpenDotaApiClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
@@ -36,13 +38,4 @@ public class OpenDotaApiClient {
             throw new RuntimeException(e);
         }
     }
-
-//    public WinAndLoss getWinAndLoss() {
-//        String url = "https://api.opendota.com/api/players/88018/wl";
-//        try {
-//            return restTemplate.getForObject(new URI(url), WinAndLoss.class);
-//        } catch (URISyntaxException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 }

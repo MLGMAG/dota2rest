@@ -11,11 +11,9 @@ import ua.mlgmag.springboot.dota2rest.dto.ProPlayerDto;
 import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.model.ProPlayer;
 import ua.mlgmag.springboot.dota2rest.model.Team;
-import ua.mlgmag.springboot.dota2rest.repository.PlayerRepository;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
@@ -25,12 +23,9 @@ public class ApiService {
 
     private final OpenDotaApiClient openDotaApiClient;
 
-    private final PlayerRepository playerRepository;
-
     @Autowired
-    public ApiService(OpenDotaApiClient openDotaApiClient, PlayerRepository playerRepository) {
+    public ApiService(OpenDotaApiClient openDotaApiClient) {
         this.openDotaApiClient = openDotaApiClient;
-        this.playerRepository = playerRepository;
     }
 
     public List<ProPlayer> findAllProPlayers() {
@@ -39,14 +34,7 @@ public class ApiService {
     }
 
     public Player findPlayerById(int id) {
-        Optional<Player> playerOptional = playerRepository.findById(id);
-        if (playerOptional.isPresent()) {
-            return playerOptional.get();
-        }
-
-        Player player = toPlayer(openDotaApiClient.findPlayerById(id));
-        playerRepository.save(player);
-        return player;
+        return toPlayer(openDotaApiClient.findPlayerById(id));
     }
 
     private ProPlayer toProPlayer(@NonNull ProPlayerDto input) {
@@ -104,8 +92,4 @@ public class ApiService {
 
         return input;
     }
-
-//    public WinAndLoss findWindAndLoss() {
-//        return openDotaApiClient.getWinAndLoss();
-//    }
 }
