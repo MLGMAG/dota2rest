@@ -9,7 +9,6 @@ import ua.mlgmag.springboot.dota2rest.dto.PlayerDto;
 import ua.mlgmag.springboot.dota2rest.dto.PlayerProfileDto;
 import ua.mlgmag.springboot.dota2rest.dto.ProPlayerDto;
 import ua.mlgmag.springboot.dota2rest.model.Player;
-import ua.mlgmag.springboot.dota2rest.model.PlayerProfile;
 import ua.mlgmag.springboot.dota2rest.model.ProPlayer;
 import ua.mlgmag.springboot.dota2rest.model.Team;
 import ua.mlgmag.springboot.dota2rest.repository.PlayerRepository;
@@ -72,14 +71,13 @@ public class ApiService {
         String steamId64 = String.valueOf(PlayerConstants.ZERO + profileDto.getAccount_id());
         String profileUrl = PlayerConstants.PLAYER_PROFILE_PREFIX.concat(steamId64);
 
-        return new Player(new PlayerProfile
-                (profileDto.getAccount_id(),
-                        profileDto.getPersonaname(),
-                        profileDto.getName(),
-                        steamId64,
-                        profileDto.getAvatarmedium(),
-                        profileUrl
-                ),
+        return new Player(
+                profileDto.getAccount_id(),
+                profileDto.getPersonaname(),
+                profileDto.getName(),
+                steamId64,
+                profileDto.getAvatarmedium(),
+                profileUrl,
                 input.getSolo_competitive_rank(),
                 input.getCompetitive_rank());
     }

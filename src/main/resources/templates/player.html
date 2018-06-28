@@ -16,29 +16,29 @@
                  th:object="${player}">
 
                 <div class="panel-heading" style="margin-top: 60px;">
-                    <h4 class="text-center" th:text="*{playerProfile.name}"></h4>
+                    <h4 class="text-center" th:text="*{name}"></h4>
                 </div>
 
                 <div class="panel-body" style="margin-top: 60px;">
 
                     <div class="row indent">
                         <div class="col text-center title">Id:</div>
-                        <div class="col text-center data" th:text="*{playerProfile.steamId32}"></div>
+                        <div class="col text-center data" th:text="*{steamId32}"></div>
                     </div>
 
                     <div class="row indent">
                         <div class="col text-center title">Name:</div>
-                        <div class="col text-center data" th:text="*{playerProfile.name}"></div>
+                        <div class="col text-center data" th:text="*{name}"></div>
                     </div>
 
                     <div class="row indent">
                         <div class="col text-center title">Persona name:</div>
-                        <div class="col text-center data" th:text="*{playerProfile.personaName}"></div>
+                        <div class="col text-center data" th:text="*{personaName}"></div>
                     </div>
 
                     <div class="row indent">
                         <div class="col text-center title">Steam Url:</div>
-                        <div class="col text-center data" th:text="*{playerProfile.steamUrl}"></div>
+                        <div class="col text-center data" th:text="*{steamUrl}"></div>
                     </div>
 
                     <div class="row indent">
