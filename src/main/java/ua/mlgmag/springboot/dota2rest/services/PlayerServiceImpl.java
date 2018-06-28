@@ -40,4 +40,9 @@ public class PlayerServiceImpl implements PlayerService {
     public List<Player> findAll() {
         return playerRepository.findAll();
     }
+
+    @Override
+    public Boolean existById(Integer id) {
+        return playerRepository.existsById(id);
+    }
 }
