@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Players</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1 style="text-align: center; margin-bottom: 30px; margin-top: 30px;">Players</h1>
+
+<table class="table table-bordered table-hover">
+
+    <thead>
+    <tr class="active">
+        <th>Icon</th>
+        <th>Steam Id</th>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody th:each="player : ${players}">
+    <tr>
+        <td><img th:src="${player.avatar}" alt="No image" height="64" width="64"></td>
+        <td class="data" th:text="${player.steamId32}" style="padding-top: 28px;"></td>
+        <td class="data" th:text="${player.name}" style="padding-top: 28px;"></td>
+        <td style="padding-top: 22px;">
+            <a th:href="@{/players/(id=${player.steamId32})}" class="btn btn-info">VIEW</a>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+
+</body>
+</html>
