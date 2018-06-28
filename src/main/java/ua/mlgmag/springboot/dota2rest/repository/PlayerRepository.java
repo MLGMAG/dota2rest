@@ -2,8 +2,8 @@ package ua.mlgmag.springboot.dota2rest.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-import ua.mlgmag.springboot.dota2rest.model.ProPlayer;
+import ua.mlgmag.springboot.dota2rest.model.Player;
 
 @Repository
-public interface ProPlayerRepository extends MongoRepository<ProPlayer, Integer> {
+public interface PlayerRepository extends MongoRepository<Player, Integer> {
 }
