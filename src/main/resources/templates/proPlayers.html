@@ -27,6 +27,8 @@
         <td class="data" th:text="${proPlayer.steamId32}"></td>
         <td class="data" th:text="${proPlayer.name}"></td>
         <td>
+            <a th:href="@{/api/openDotaApi/players/add/(id=${proPlayer.steamId32})}" class="btn btn-success">ADD</a>
+            &nbsp
             <a th:href="@{/api/openDotaApi/players/(id=${proPlayer.steamId32})}" class="btn btn-info">VIEW</a>
         </td>
     </tr>
