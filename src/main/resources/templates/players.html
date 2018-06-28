@@ -28,7 +28,10 @@
         <td class="data" th:text="${player.steamId32}" style="padding-top: 28px;"></td>
         <td class="data" th:text="${player.name}" style="padding-top: 28px;"></td>
         <td style="padding-top: 22px;">
-            <a th:href="@{/players/(id=${player.steamId32})}" class="btn btn-info">VIEW</a>
+            <a th:href="@{/players/(id=*{player.steamId32})}" class="btn btn-info">VIEW</a>
+            &nbsp
+            <a th:href="@{'/api/openDotaApi/players/' + ${player.steamId32} + '/peers'}"
+               class="btn btn-warning">PEERS</a>
         </td>
     </tr>
     </tbody>

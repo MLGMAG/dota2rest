@@ -3,9 +3,15 @@ package ua.mlgmag.springboot.dota2rest.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.mlgmag.springboot.dota2rest.constants.PlayerConstants;
+import ua.mlgmag.springboot.dota2rest.dto.PeerDto;
 import ua.mlgmag.springboot.dota2rest.dto.PlayerDto;
 import ua.mlgmag.springboot.dota2rest.dto.PlayerProfileDto;
+import ua.mlgmag.springboot.dota2rest.model.Peer;
 import ua.mlgmag.springboot.dota2rest.model.Player;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ApiService {
@@ -19,6 +25,21 @@ public class ApiService {
 
     public Player findPlayerById(int id) {
         return toPlayer(openDotaApiClient.findPlayerById(id));
+    }
+
+    public List<Peer> findAllPeersById(int id) {
+        return Arrays.stream(openDotaApiClient.findPeersByPlayerId(id)).map(this::toPeer).collect(Collectors.toList());
+    }
+
+    private Peer toPeer(PeerDto input) {
+        return new Peer(
+                input.getAccount_id(),
+                input.getWin(),
+                input.getGames(),
+                input.getWith_win(),
+                input.getWith_games(),
+                input.getPersonaname(),
+                input.getAvatarfull());
     }
 
     private Player toPlayer(PlayerDto input) {

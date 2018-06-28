@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Player Peers</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1 style="text-align: center; margin-bottom: 30px; margin-top: 30px;" th:text="${playerName} + ' ' + 'Peers'"></h1>
+
+<table class="table table-bordered table-hover">
+
+    <thead>
+    <tr class="active">
+        <th>Icon</th>
+        <th>Steam Id</th>
+        <th>Name</th>
+        <th>Games</th>
+        <th>Together</th>
+        <th>Together victories</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody th:each="peer : ${peers}">
+    <tr>
+        <td><img th:src="${peer.avatar}" alt="No image" height="64" width="64"></td>
+        <td class="data" th:text="${peer.steamId32}" style="padding-top: 28px;"></td>
+        <td class="data" th:text="${peer.personaname}" style="padding-top: 28px;"></td>
+        <td class="data" th:text="${peer.games}" style="padding-top: 28px;"></td>
+        <td class="data" th:text="${peer.with_games}" style="padding-top: 28px;"></td>
+        <td class="data" th:text="${peer.with_win}" style="padding-top: 28px;"></td>
+        <td style="padding-top: 22px;">
+            <a href="#" class="btn btn-success">Save</a>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+
+</body>
+</html>

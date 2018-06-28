@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.mlgmag.springboot.dota2rest.definition.PlayerService;
@@ -33,5 +34,12 @@ public class OpenDotaApiController {
     public String playerAdd(@RequestParam(value = "id") int id) {
         playerService.save(apiService.findPlayerById(id));
         return "redirect:/api/openDotaApi/proPlayers";
+    }
+
+    @GetMapping(value = "/players/{id}/peers")
+    public String playerPeers(@PathVariable(value = "id") Integer id, Model model) {
+        model.addAttribute("playerName", apiService.findPlayerById(id).getName());
+        model.addAttribute("peers", apiService.findAllPeersById(id));
+        return "peers";
     }
 }
