@@ -30,9 +30,4 @@ public class OpenDotaApiController {
         model.addAttribute("player", apiService.findPlayerById(id));
         return "player";
     }
-
-//    @GetMapping(value = "players/{id}/winAndLoss")
-//    public WinAndLoss WinAndLoss() {
-//        return apiService.findWindAndLoss();
-//    }
 }
