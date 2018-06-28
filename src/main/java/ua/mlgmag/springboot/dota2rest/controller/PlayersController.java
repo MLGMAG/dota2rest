@@ -36,8 +36,14 @@ public class PlayersController {
     }
 
     @GetMapping(value = "/save")
-    public String savePlayerById(@RequestParam(value = "id") Integer id) {
+    public String savePlayer(@RequestParam(value = "id") Integer id) {
         playerService.save(apiService.findPlayerById(id));
+        return "redirect:/players/saved";
+    }
+
+    @GetMapping(value = "/delete")
+    public String deletePlayer(@RequestParam("id") Integer id) {
+        playerService.delete(playerService.findById(id).orElse(null));
         return "redirect:/players/saved";
     }
 }

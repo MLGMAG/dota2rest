@@ -32,6 +32,8 @@
             &nbsp
             <a th:href="@{'/api/openDotaApi/players/' + ${player.steamId32} + '/peers'}"
                class="btn btn-warning">PEERS</a>
+            &nbsp
+            <a th:href="@{/players/delete/(id=${player.steamId32})}" class="btn btn-danger">DELETE</a>
         </td>
     </tr>
     </tbody>
