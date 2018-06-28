@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.mlgmag.springboot.dota2rest.definition.PlayerService;
 import ua.mlgmag.springboot.dota2rest.services.ApiService;
 
 @Controller
@@ -16,24 +15,15 @@ public class OpenDotaApiController {
 
     private final ApiService apiService;
 
-    private final PlayerService playerService;
-
     @Autowired
-    public OpenDotaApiController(ApiService apiService, PlayerService playerService) {
+    public OpenDotaApiController(ApiService apiService) {
         this.apiService = apiService;
-        this.playerService = playerService;
     }
 
     @GetMapping(value = "/players")
     public String player(@RequestParam(value = "id") int id, Model model) {
         model.addAttribute("player", apiService.findPlayerById(id));
         return "player";
-    }
-
-    @GetMapping(value = "/players/add")
-    public String playerAdd(@RequestParam(value = "id") int id) {
-        playerService.save(apiService.findPlayerById(id));
-        return "redirect:/api/openDotaApi/proPlayers";
     }
 
     @GetMapping(value = "/players/{id}/peers")

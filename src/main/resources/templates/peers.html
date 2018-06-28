@@ -34,7 +34,7 @@
         <td class="data" th:text="${peer.with_games}" style="padding-top: 28px;"></td>
         <td class="data" th:text="${peer.with_win}" style="padding-top: 28px;"></td>
         <td style="padding-top: 22px;">
-            <a href="#" class="btn btn-success">Save</a>
+            <a th:href="@{/players/save/(id=${peer.steamId32})}" class="btn btn-success">Save</a>
         </td>
     </tr>
     </tbody>
