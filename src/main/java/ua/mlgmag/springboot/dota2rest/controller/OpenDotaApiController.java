@@ -23,19 +23,13 @@ public class OpenDotaApiController {
         this.playerService = playerService;
     }
 
-    @GetMapping(value = "proPlayers")
-    public String proPlayers(Model model) {
-        model.addAttribute("proPlayers", apiService.findAllProPlayers());
-        return "proPlayers";
-    }
-
-    @GetMapping(value = "players")
+    @GetMapping(value = "/players")
     public String player(@RequestParam(value = "id") int id, Model model) {
         model.addAttribute("player", apiService.findPlayerById(id));
         return "player";
     }
 
-    @GetMapping(value = "players/add")
+    @GetMapping(value = "/players/add")
     public String playerAdd(@RequestParam(value = "id") int id) {
         playerService.save(apiService.findPlayerById(id));
         return "redirect:/api/openDotaApi/proPlayers";

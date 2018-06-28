@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import ua.mlgmag.springboot.dota2rest.dto.PlayerDto;
-import ua.mlgmag.springboot.dota2rest.dto.ProPlayerDto;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -17,16 +16,6 @@ public class OpenDotaApiClient {
     @Autowired
     public OpenDotaApiClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-    }
-
-    public ProPlayerDto[] findAllProPlayers() {
-        String url = "https://api.opendota.com/api/proPlayers";
-        try {
-            return restTemplate.getForObject(new URI(url), ProPlayerDto[].class);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
     }
 
     public PlayerDto findPlayerById(int id) {
