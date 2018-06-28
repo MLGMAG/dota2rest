@@ -32,11 +32,6 @@
                     </div>
 
                     <div class="row indent">
-                        <div class="col text-center title">Persona name:</div>
-                        <div class="col text-center data" th:text="*{personaName}"></div>
-                    </div>
-
-                    <div class="row indent">
                         <div class="col text-center title">Steam Url:</div>
                         <div class="col text-center data" th:text="*{steamUrl}"></div>
                     </div>
@@ -48,7 +43,11 @@
 
                     <div class="row indent">
                         <div class="col text-center title">Competitive mmr:</div>
-                        <div class="col text-center data" th:text="*{competitive_rank}"></div>
+                        <div class="col text-center data" th:if="${player.competitive_rank} != null"
+                             th:text="*{competitive_rank}"></div>
+                        <div class="col text-center data" th:unless="${player.competitive_rank} != null">Not
+                            calibrated
+                        </div>
                     </div>
 
                 </div>

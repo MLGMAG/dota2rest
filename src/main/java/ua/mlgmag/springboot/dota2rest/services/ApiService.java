@@ -15,6 +15,7 @@ import ua.mlgmag.springboot.dota2rest.repository.PlayerRepository;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
@@ -38,10 +39,14 @@ public class ApiService {
     }
 
     public Player findPlayerById(int id) {
-        if (!playerRepository.existsById(id)) {
-            playerRepository.save(toPlayer(openDotaApiClient.findPlayerById(id)));
+        Optional<Player> playerOptional = playerRepository.findById(id);
+        if (playerOptional.isPresent()) {
+            return playerOptional.get();
         }
-        return toPlayer(openDotaApiClient.findPlayerById(id));
+
+        Player player = toPlayer(openDotaApiClient.findPlayerById(id));
+        playerRepository.save(player);
+        return player;
     }
 
     private ProPlayer toProPlayer(@NonNull ProPlayerDto input) {
@@ -67,19 +72,37 @@ public class ApiService {
 
     private Player toPlayer(@NonNull PlayerDto input) {
 
-        PlayerProfileDto profileDto = input.getProfile();
+        PlayerDto validateInput = playerDtoValidation(input);
+        PlayerProfileDto profileDto = validateInput.getProfile();
         String steamId64 = String.valueOf(PlayerConstants.ZERO + profileDto.getAccount_id());
         String profileUrl = PlayerConstants.PLAYER_PROFILE_PREFIX.concat(steamId64);
 
+
         return new Player(
                 profileDto.getAccount_id(),
-                profileDto.getPersonaname(),
                 profileDto.getName(),
                 steamId64,
                 profileDto.getAvatarmedium(),
                 profileUrl,
-                input.getSolo_competitive_rank(),
-                input.getCompetitive_rank());
+                validateInput.getSolo_competitive_rank(),
+                validateInput.getCompetitive_rank());
+    }
+
+    private PlayerDto playerDtoValidation(PlayerDto input) {
+
+        if (input.getSolo_competitive_rank() == null) {
+            input.setSolo_competitive_rank("Not calibrated");
+        }
+
+        if (input.getCompetitive_rank() == null) {
+            input.setCompetitive_rank("Not calibrated");
+        }
+
+        if (input.getProfile().getName().equals("")) {
+            input.getProfile().setName("Not Set");
+        }
+
+        return input;
     }
 
 //    public WinAndLoss findWindAndLoss() {
