@@ -4,12 +4,15 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.mlgmag.springboot.dota2rest.constants.PlayerConstants;
 import ua.mlgmag.springboot.dota2rest.dto.PlayerDto;
+import ua.mlgmag.springboot.dota2rest.dto.PlayerProfileDto;
 import ua.mlgmag.springboot.dota2rest.dto.ProPlayerDto;
 import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.model.PlayerProfile;
 import ua.mlgmag.springboot.dota2rest.model.ProPlayer;
 import ua.mlgmag.springboot.dota2rest.model.Team;
+import ua.mlgmag.springboot.dota2rest.repository.PlayerRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,9 +25,12 @@ public class ApiService {
 
     private final OpenDotaApiClient openDotaApiClient;
 
+    private final PlayerRepository playerRepository;
+
     @Autowired
-    public ApiService(OpenDotaApiClient openDotaApiClient) {
+    public ApiService(OpenDotaApiClient openDotaApiClient, PlayerRepository playerRepository) {
         this.openDotaApiClient = openDotaApiClient;
+        this.playerRepository = playerRepository;
     }
 
     public List<ProPlayer> findAllProPlayers() {
@@ -33,13 +39,16 @@ public class ApiService {
     }
 
     public Player findPlayerById(int id) {
+        if (!playerRepository.existsById(id)) {
+            playerRepository.save(toPlayer(openDotaApiClient.findPlayerById(id)));
+        }
         return toPlayer(openDotaApiClient.findPlayerById(id));
     }
 
     private ProPlayer toProPlayer(@NonNull ProPlayerDto input) {
         return new ProPlayer(
                 input.getAccount_id(),
-                String.valueOf(76561197960265728L + input.getAccount_id()),
+                String.valueOf(PlayerConstants.ZERO + input.getAccount_id()),
                 input.getAvatarmedium(),
                 input.getProfileurl(),
                 input.getPersonaname(),
@@ -58,13 +67,18 @@ public class ApiService {
     }
 
     private Player toPlayer(@NonNull PlayerDto input) {
+
+        PlayerProfileDto profileDto = input.getProfile();
+        String steamId64 = String.valueOf(PlayerConstants.ZERO + profileDto.getAccount_id());
+        String profileUrl = PlayerConstants.PLAYER_PROFILE_PREFIX.concat(steamId64);
+
         return new Player(new PlayerProfile
-                (input.getProfile().getAccount_id(),
-                        input.getProfile().getPersonaname(),
-                        input.getProfile().getName(),
-                        input.getProfile().getSteamid(),
-                        input.getProfile().getAvatarmedium(),
-                        input.getProfile().getProfileurl()
+                (profileDto.getAccount_id(),
+                        profileDto.getPersonaname(),
+                        profileDto.getName(),
+                        steamId64,
+                        profileDto.getAvatarmedium(),
+                        profileUrl
                 ),
                 input.getSolo_competitive_rank(),
                 input.getCompetitive_rank());
