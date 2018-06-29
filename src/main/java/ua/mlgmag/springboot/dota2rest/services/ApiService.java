@@ -3,6 +3,7 @@ package ua.mlgmag.springboot.dota2rest.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.mlgmag.springboot.dota2rest.constants.PlayerConstants;
+import ua.mlgmag.springboot.dota2rest.definition.PlayerService;
 import ua.mlgmag.springboot.dota2rest.dto.PeerDto;
 import ua.mlgmag.springboot.dota2rest.dto.PlayerDto;
 import ua.mlgmag.springboot.dota2rest.dto.PlayerProfileDto;
@@ -18,9 +19,12 @@ public class ApiService {
 
     private final OpenDotaApiClient openDotaApiClient;
 
+    private final PlayerService playerService;
+
     @Autowired
-    public ApiService(OpenDotaApiClient openDotaApiClient) {
+    public ApiService(OpenDotaApiClient openDotaApiClient, PlayerService playerService) {
         this.openDotaApiClient = openDotaApiClient;
+        this.playerService = playerService;
     }
 
     public Player findPlayerById(int id) {
@@ -39,7 +43,8 @@ public class ApiService {
                 input.getWith_win(),
                 input.getWith_games(),
                 input.getPersonaname(),
-                input.getAvatarfull());
+                input.getAvatarfull(),
+                playerService.existById(input.getAccount_id()));
     }
 
     private Player toPlayer(PlayerDto input) {

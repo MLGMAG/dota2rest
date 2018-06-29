@@ -34,7 +34,13 @@
         <td class="data" th:text="${peer.with_games}" style="padding-top: 28px;"></td>
         <td class="data" th:text="${peer.with_win}" style="padding-top: 28px;"></td>
         <td style="padding-top: 22px;">
-            <a th:href="@{/players/save/(id=${peer.steamId32})}" class="btn btn-success">Save</a>
+            <a th:href="@{/players/save/(id=${peer.steamId32})}" th:unless="${peer.isInDB}"
+               class="btn btn-success">Save</a>
+
+            <a href="#" th:if="${peer.isInDB}" class="btn btn-success disabled" aria-disabled="true">Saved</a>
+            &nbsp
+            <a th:href="@{/players/delete/(id=${peer.steamId32})}" th:if="${peer.isInDB}"
+               class="btn btn-danger">DELETE</a>
         </td>
     </tr>
     </tbody>
