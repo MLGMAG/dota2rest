@@ -3,6 +3,7 @@ package ua.mlgmag.springboot.dota2rest.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import ua.mlgmag.springboot.dota2rest.constants.PlayerConstants;
 import ua.mlgmag.springboot.dota2rest.dto.PeerDto;
 import ua.mlgmag.springboot.dota2rest.dto.PlayerDto;
 
@@ -20,7 +21,7 @@ public class OpenDotaApiClient {
     }
 
     public PlayerDto findPlayerById(int id) {
-        StringBuilder url = new StringBuilder("https://api.opendota.com/api/players/");
+        StringBuilder url = new StringBuilder(PlayerConstants.HTTP_REQUEST_PLAYERS);
         url.append(id);
         try {
             return restTemplate.getForObject(new URI(url.toString()), PlayerDto.class);
@@ -30,7 +31,7 @@ public class OpenDotaApiClient {
     }
 
     public PeerDto[] findPeersByPlayerId(int id) {
-        StringBuilder url = new StringBuilder("https://api.opendota.com/api/players/");
+        StringBuilder url = new StringBuilder(PlayerConstants.HTTP_REQUEST_PLAYERS);
         url.append(id).append("/peers");
         try {
             return restTemplate.getForObject(new URI(url.toString()), PeerDto[].class);
