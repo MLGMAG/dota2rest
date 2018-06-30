@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.mlgmag.springboot.dota2rest.definition.PlayerService;
@@ -11,7 +12,7 @@ import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.services.ApiService;
 
 @Controller
-@RequestMapping(value = "/players")
+@RequestMapping("/players")
 public class PlayersController {
 
     private final PlayerService playerService;
@@ -24,28 +25,28 @@ public class PlayersController {
         this.apiService = apiService;
     }
 
-    @GetMapping(value = "/saved")
+    @GetMapping("/saved")
     public String savedPlayers(Model model) {
         model.addAttribute("players", playerService.findAll());
         model.addAttribute(new Player());
         return "players";
     }
 
-    @GetMapping
-    public String player(@RequestParam(value = "id") Integer id, Model model) {
+    @GetMapping("/{id}")
+    public String player(@PathVariable("id") Integer id, Model model) {
         Player player = playerService.findById(id).orElse(null);
         player.setIsInDB(playerService.existById(player.getSteamId32()));
         model.addAttribute("player", player);
         return "player";
     }
 
-    @GetMapping(value = "/save")
+    @GetMapping("/save")
     public String savePlayer(@RequestParam(value = "id") Integer id) {
         playerService.save(apiService.findPlayerById(id));
         return "redirect:/players/saved";
     }
 
-    @GetMapping(value = "/delete")
+    @GetMapping("/delete")
     public String deletePlayer(@RequestParam("id") Integer id) {
         playerService.delete(playerService.findById(id).orElse(null));
         return "redirect:/players/saved";

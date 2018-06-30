@@ -22,13 +22,7 @@ public class OpenDotaApiController {
         this.playerService = playerService;
     }
 
-    @GetMapping(value = "/players")
-    public String playerGet(@RequestParam(value = "id") int id, Model model) {
-        model.addAttribute("player", apiService.findPlayerById(id));
-        return "player";
-    }
-
-    @PostMapping(value = "/players")
+    @PostMapping("/players")
     public String playerPost(@ModelAttribute("player") Player player, Model model) {
         Player playerById = apiService.findPlayerById(player.getSteamId32());
         playerById.setIsInDB(playerService.existById(playerById.getSteamId32()));
@@ -36,7 +30,7 @@ public class OpenDotaApiController {
         return "player";
     }
 
-    @GetMapping(value = "/players/{id}/peers")
+    @GetMapping("/players/{id}/peers")
     public String playerPeers(@PathVariable(value = "id") Integer id, Model model) {
         model.addAttribute("playerName", apiService.findPlayerById(id).getName());
         model.addAttribute("peers", apiService.findAllPeersById(id));
