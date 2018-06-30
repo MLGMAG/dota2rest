@@ -25,6 +25,12 @@ public class OpenDotaApiController {
     @PostMapping("/players")
     public String playerPost(@ModelAttribute("player") Player player, Model model) {
         Player playerById = apiService.findPlayerById(player.getSteamId32());
+
+        if (playerById == null) {
+            model.addAttribute("player", null);
+            return "player";
+        }
+
         playerById.setIsInDB(playerService.existById(playerById.getSteamId32()));
         model.addAttribute("player", playerById);
         return "player";

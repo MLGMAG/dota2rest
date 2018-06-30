@@ -50,6 +50,7 @@ public class ApiService {
 
     private Player toPlayer(PlayerDto input) {
 
+        if (input.getProfile() == null) return null;
         PlayerDto validateInput = playerDtoValidation(input);
         PlayerProfileDto profileDto = validateInput.getProfile();
         String steamId64 = String.valueOf(PlayerConstants.ZERO + profileDto.getAccount_id());
