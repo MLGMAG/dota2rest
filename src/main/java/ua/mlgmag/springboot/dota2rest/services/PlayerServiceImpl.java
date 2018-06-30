@@ -21,9 +21,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public void save(Player player) {
-        if (!playerRepository.existsById(player.getSteamId32())) {
-            playerRepository.save(player);
-        }
+        playerRepository.save(player);
     }
 
     @Override
