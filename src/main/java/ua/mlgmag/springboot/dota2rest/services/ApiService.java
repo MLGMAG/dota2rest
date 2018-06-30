@@ -76,7 +76,11 @@ public class ApiService {
         }
 
         if (input.getProfile().getName() == null || input.getProfile().getName().equals("")) {
-            input.getProfile().setName("Not Set");
+            if (input.getProfile().getPersonaname() != null || !input.getProfile().getPersonaname().equals("")) {
+                input.getProfile().setName(input.getProfile().getPersonaname());
+            } else {
+                input.getProfile().setName("Not Set");
+            }
         }
 
         return input;
