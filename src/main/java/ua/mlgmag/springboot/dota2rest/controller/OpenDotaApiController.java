@@ -3,10 +3,9 @@ package ua.mlgmag.springboot.dota2rest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import ua.mlgmag.springboot.dota2rest.definition.PlayerService;
+import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.services.ApiService;
 
 @Controller
@@ -15,14 +14,25 @@ public class OpenDotaApiController {
 
     private final ApiService apiService;
 
+    private final PlayerService playerService;
+
     @Autowired
-    public OpenDotaApiController(ApiService apiService) {
+    public OpenDotaApiController(ApiService apiService, PlayerService playerService) {
         this.apiService = apiService;
+        this.playerService = playerService;
     }
 
     @GetMapping(value = "/players")
-    public String player(@RequestParam(value = "id") int id, Model model) {
+    public String playerGet(@RequestParam(value = "id") int id, Model model) {
         model.addAttribute("player", apiService.findPlayerById(id));
+        return "player";
+    }
+
+    @PostMapping(value = "/players")
+    public String playerPost(@ModelAttribute("player") Player player, Model model) {
+        Player playerById = apiService.findPlayerById(player.getSteamId32());
+        playerById.setIsInDB(playerService.existById(playerById.getSteamId32()));
+        model.addAttribute("player", playerById);
         return "player";
     }
 

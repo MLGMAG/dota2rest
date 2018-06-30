@@ -52,7 +52,12 @@
                     </div>
 
                     <h2 class="text-center" style="margin-bottom: 20px;">
-                        <a th:href="@{/players/saved}" class="btn btn-success" role="button">Back</a>
+                        <a th:href="@{/players/saved}" class="btn btn-secondary" role="button">Back</a>
+                        <a th:href="@{/players/save/(id=${player.steamId32})}" th:unless="${player.isInDB}"
+                           class="btn btn-success" role="button">Save</a>
+                        <a href="#" th:if="${player.isInDB}" class="btn btn-success disabled"
+                           aria-disabled="true">Saved</a>
+                        &nbsp
                     </h2>
 
                 </div>

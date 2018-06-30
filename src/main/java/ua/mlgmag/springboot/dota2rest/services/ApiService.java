@@ -32,7 +32,8 @@ public class ApiService {
     }
 
     public List<Peer> findAllPeersById(int id) {
-        return Arrays.stream(openDotaApiClient.findPeersByPlayerId(id)).map(this::toPeer).collect(Collectors.toList());
+        return Arrays.stream(openDotaApiClient.findPeersByPlayerId(id)).map(this::toPeer).filter(peer -> peer.getGames() > 50)
+                .collect(Collectors.toList());
     }
 
     private Peer toPeer(PeerDto input) {
@@ -60,7 +61,8 @@ public class ApiService {
                 profileDto.getAvatarmedium(),
                 PlayerConstants.PLAYER_PROFILE_PREFIX.concat(steamId64),
                 validateInput.getSolo_competitive_rank(),
-                validateInput.getCompetitive_rank());
+                validateInput.getCompetitive_rank(),
+                null);
     }
 
     private PlayerDto playerDtoValidation(PlayerDto input) {

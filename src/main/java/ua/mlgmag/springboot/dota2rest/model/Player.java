@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -21,4 +22,6 @@ public class Player {
     private String solo_competitive_rank;
     private String competitive_rank;
 
+    @Transient
+    private Boolean isInDB;
 }
