@@ -58,10 +58,8 @@
                 </div>
             </div>
 
-            <div class="panel" th:if="${player} == null">
-                <div class="panel-heading" style="margin-top: 30px;">
-                    <h4 class="text-center table-title">Player does not exist or not play dota 2</h4>
-                </div>
+            <div th:if="${player} == null" style="margin-top: 30px;">
+                <h4 class="text-center">Player does not exist or not play dota 2</h4>
             </div>
 
         </div>
