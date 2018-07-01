@@ -12,7 +12,7 @@ import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.services.ApiService;
 
 @Controller
-@RequestMapping("/players")
+@RequestMapping("database/players")
 public class PlayersController {
 
     private final PlayerService playerService;
@@ -51,12 +51,12 @@ public class PlayersController {
     @GetMapping("/save")
     public String savePlayer(@RequestParam(value = "id") Integer id) {
         playerService.save(apiService.findPlayerById(id));
-        return "redirect:/players/saved";
+        return "redirect:/database/players/saved";
     }
 
     @GetMapping("/delete")
     public String deletePlayer(@RequestParam("id") Integer id) {
         playerService.delete(playerService.findById(id).orElse(null));
-        return "redirect:/players/saved";
+        return "redirect:/database/players/saved";
     }
 }
