@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ua.mlgmag.springboot.dota2rest.constants.UrlMappingConstants;
 import ua.mlgmag.springboot.dota2rest.definition.PlayerService;
 import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.services.ApiService;
@@ -14,7 +15,7 @@ import ua.mlgmag.springboot.dota2rest.services.ApiService;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("database/players")
+@RequestMapping(UrlMappingConstants.PLAYERS_CONTROLLER_REQUEST_MAPPING)
 public class PlayersController {
 
     private final PlayerService playerService;
@@ -59,11 +60,11 @@ public class PlayersController {
         Player player = apiService.findPlayerById(id);
 
         if (player == null) {
-            return "redirect:/database/players?saveError";
+            return UrlMappingConstants.REDIRECT + UrlMappingConstants.PLAYERS_CONTROLLER_REQUEST_MAPPING + "?saveError";
         }
 
         playerService.save(player);
-        return "redirect:/database/players";
+        return UrlMappingConstants.REDIRECT + UrlMappingConstants.PLAYERS_CONTROLLER_REQUEST_MAPPING;
     }
 
     @GetMapping("/delete")
@@ -71,10 +72,10 @@ public class PlayersController {
         Optional<Player> player = playerService.findById(id);
 
         if (!player.isPresent()) {
-            return "redirect:/database/players?deleteError";
+            return UrlMappingConstants.REDIRECT + UrlMappingConstants.PLAYERS_CONTROLLER_REQUEST_MAPPING + "?deleteError";
         }
 
         playerService.delete(player.get());
-        return "redirect:/database/players";
+        return UrlMappingConstants.REDIRECT + UrlMappingConstants.PLAYERS_CONTROLLER_REQUEST_MAPPING;
     }
 }
