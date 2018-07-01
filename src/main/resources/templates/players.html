@@ -55,6 +55,8 @@
         <td style="padding-top: 22px;">
             <a th:href="@{'/database/players/' + ${player.steamId32}}" class="btn btn-info">VIEW</a>
             &nbsp
+            <a th:href="${player.steamUrl}" class="btn btn-primary">Steam Profile</a>
+            &nbsp
             <a th:href="@{'/api/openDotaApi/players/' + ${player.steamId32} + '/peers'}"
                class="btn btn-warning">PEERS</a>
             &nbsp
