@@ -39,18 +39,18 @@
 
                     <div class="row indent">
                         <div class="col text-center table-title">Competitive mmr:</div>
-                        <div class="col text-center data" th:if="${player.competitive_rank} != null"
+                        <div class="col text-center data" th:if="*{competitive_rank} != null"
                              th:text="*{competitive_rank}"></div>
-                        <div class="col text-center data" th:unless="${player.competitive_rank} != null">Not
+                        <div class="col text-center data" th:unless="*{competitive_rank} != null">Not
                             calibrated
                         </div>
                     </div>
 
                     <h2 class="text-center" style="margin-bottom: 20px;">
                         <a th:href="@{/database/players/saved}" class="btn btn-secondary" role="button">Back</a>
-                        <a th:href="@{/database/players/save/(id=${player.steamId32})}" th:unless="${player.isInDB}"
+                        <a th:href="@{/database/players/save/(id=*{steamId32})}" th:unless="*{isInDB}"
                            class="btn btn-success" role="button">Save</a>
-                        <a href="#" th:if="${player.isInDB}" class="btn btn-success disabled"
+                        <a href="#" th:if="*{isInDB}" class="btn btn-success disabled"
                            aria-disabled="true">Saved</a>
                         &nbsp
                     </h2>

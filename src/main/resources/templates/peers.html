@@ -23,20 +23,20 @@
         </thead>
 
         <tbody th:each="peer : ${peers}">
-        <tr>
-            <td><img th:src="${peer.avatar}" alt="No image" height="64" width="64"></td>
-            <td class="data pad-top28" th:text="${peer.steamId32}"></td>
-            <td class="data pad-top28" th:text="${peer.personaname}"></td>
-            <td class="data pad-top28" th:text="${peer.games}"></td>
-            <td class="data pad-top28" th:text="${peer.with_games}"></td>
-            <td class="data pad-top28" th:text="${peer.with_win}"></td>
+        <tr th:object="${peer}">
+            <td><img th:src="*{avatar}" alt="No image" height="64" width="64"></td>
+            <td class="data pad-top28" th:text="*{steamId32}"></td>
+            <td class="data pad-top28" th:text="*{personaname}"></td>
+            <td class="data pad-top28" th:text="*{games}"></td>
+            <td class="data pad-top28" th:text="*{with_games}"></td>
+            <td class="data pad-top28" th:text="*{with_win}"></td>
             <td style="padding-top: 22px;">
-                <a th:href="@{/database/players/save/(id=${peer.steamId32})}" th:unless="${peer.isInDB}"
+                <a th:href="@{/database/players/save/(id=*{steamId32})}" th:unless="*{isInDB}"
                    class="btn btn-success">Save</a>
 
-                <a href="#" th:if="${peer.isInDB}" class="btn btn-success disabled" aria-disabled="true">Saved</a>
+                <a href="#" th:if="*{isInDB}" class="btn btn-success disabled" aria-disabled="true">Saved</a>
                 &nbsp
-                <a th:href="@{/database/players/delete/(id=${peer.steamId32})}" th:if="${peer.isInDB}"
+                <a th:href="@{/database/players/delete/(id=*{steamId32})}" th:if="*{isInDB}"
                    class="btn btn-danger">DELETE</a>
             </td>
         </tr>
