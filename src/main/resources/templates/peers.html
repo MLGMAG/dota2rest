@@ -4,6 +4,9 @@
 <th:block th:replace="templates :: header"></th:block>
 
 <body>
+
+<th:block th:replace="templates :: signIn&Up_navbar"></th:block>
+
 <div th:unless="${peers} == null">
 
     <h1 class="page-title" th:text="${playerName} + ' ' + 'peers'"></h1>

@@ -8,17 +8,13 @@
     font-weight: bold;
 }
 
-.indent {
-    margin-bottom: 30px;
-}
-
 .border-panel {
     margin-top: 60px;
     border: solid #007bff;
     background-color: #ffffff;
 }
 
-.title-panel {
+.panel-header {
     background-color: #dee2e6;
     padding-top: 15px;
     padding-bottom: 10px;
@@ -26,10 +22,14 @@
 
 .page-title {
     text-align: center;
-    margin-bottom: 30px;
-    margin-top: 30px;
+    margin-top: 50px;
+    margin-bottom: 45px;
 }
 
 .pad-top28 {
     padding-top: 28px;
+}
+
+.mar-bot30 {
+    margin-bottom: 30px;
 }

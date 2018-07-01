@@ -11,6 +11,28 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
+<!--Navigation bar for not logged users-->
+<nav class="navbar navbar-expand-sm navbar-light bg-light" th:fragment="signIn&Up_navbar"
+     style="background-color:#e9ecef!important;">
+
+    <div class="navbar-brand" th:text="${title}"></div>
+
+    <div class="collapse navbar-collapse">
+
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/signUp}"><span class="fas fa-user-plus" aria-hidden="true"></span> Sign
+                    Up</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/signIn}"><span class="fas fa-sign-in-alt" aria-hidden="true"></span>
+                    Sign In</a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
 <div th:fragment="allJss">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
             integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
