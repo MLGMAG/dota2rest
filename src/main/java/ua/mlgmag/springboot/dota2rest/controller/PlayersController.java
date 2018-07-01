@@ -36,6 +36,12 @@ public class PlayersController {
     @GetMapping("/{id}")
     public String player(@PathVariable("id") Integer id, Model model) {
         Player player = playerService.findById(id).orElse(null);
+
+        if (player == null) {
+            model.addAttribute("title", "Object not found");
+            return "player";
+        }
+
         player.setIsInDB(playerService.existById(player.getSteamId32()));
         model.addAttribute("player", player);
         model.addAttribute("title", player.getName());
