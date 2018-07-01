@@ -29,6 +29,7 @@ public class PlayersController {
     public String savedPlayers(Model model) {
         model.addAttribute("players", playerService.findAll());
         model.addAttribute(new Player());
+        model.addAttribute("title", "Saved players");
         return "players";
     }
 
@@ -37,6 +38,7 @@ public class PlayersController {
         Player player = playerService.findById(id).orElse(null);
         player.setIsInDB(playerService.existById(player.getSteamId32()));
         model.addAttribute("player", player);
+        model.addAttribute("title", player.getName());
         return "player";
     }
 

@@ -28,11 +28,13 @@ public class OpenDotaApiController {
 
         if (playerById == null) {
             model.addAttribute("player", null);
+            model.addAttribute("title", "Player not found");
             return "player";
         }
 
         playerById.setIsInDB(playerService.existById(playerById.getSteamId32()));
         model.addAttribute("player", playerById);
+        model.addAttribute("title", "Player");
         return "player";
     }
 
@@ -40,6 +42,7 @@ public class OpenDotaApiController {
     public String playerPeers(@PathVariable(value = "id") Integer id, Model model) {
         model.addAttribute("playerName", apiService.findPlayerById(id).getName());
         model.addAttribute("peers", apiService.findAllPeersById(id));
+        model.addAttribute("title", "Pears");
         return "peers";
     }
 }
