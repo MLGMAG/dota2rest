@@ -41,7 +41,7 @@ public class OpenDotaApiController {
     @GetMapping("/players/{id}/peers")
     public String playerPeers(@PathVariable(value = "id") Integer id, Model model) {
         model.addAttribute("playerName", apiService.findPlayerById(id).getName());
-        model.addAttribute("peers", apiService.findAllPeersById(id));
+        model.addAttribute("peers", apiService.findAllPeersByPlayerId(id));
         model.addAttribute("title", "Pears");
         return "peers";
     }
