@@ -32,7 +32,7 @@ public class ApiService {
     }
 
     public List<Peer> findAllPeersByPlayerId(int id) {
-        return Arrays.stream(openDotaApiClient.findPeersByPlayerId(id)).map(this::toPeer).filter(peer -> peer.getGames() > 50)
+        return Arrays.stream(openDotaApiClient.findPeersByPlayerId(id)).map(this::toPeer).filter(peer -> peer.getGames() > 25)
                 .collect(Collectors.toList());
     }
 
