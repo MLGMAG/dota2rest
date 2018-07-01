@@ -59,7 +59,7 @@ public class ApiService {
                 profileDto.getAccount_id(),
                 profileDto.getName(),
                 String.valueOf(PlayerConstants.ZERO + profileDto.getAccount_id()),
-                profileDto.getAvatarmedium(),
+                profileDto.getAvatarfull(),
                 PlayerConstants.PLAYER_PROFILE_PREFIX.concat(steamId64),
                 validateInput.getSolo_competitive_rank(),
                 validateInput.getCompetitive_rank(),
