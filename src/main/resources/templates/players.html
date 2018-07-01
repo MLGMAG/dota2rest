@@ -5,7 +5,7 @@
 
 <body>
 
-<h1 style="text-align: center; margin-bottom: 30px; margin-top: 30px;">Players in database</h1>
+<h1 class="page-title">Players in database</h1>
 
 <div class="container-fluid">
 
@@ -34,8 +34,8 @@
     <tbody th:each="player : ${players}">
     <tr>
         <td><img th:src="${player.avatar}" alt="No image" height="64" width="64"></td>
-        <td class="data" th:text="${player.steamId32}" style="padding-top: 28px;"></td>
-        <td class="data" th:text="${player.name}" style="padding-top: 28px;"></td>
+        <td class="data pad-top28" th:text="${player.steamId32}"></td>
+        <td class="data pad-top28" th:text="${player.name}"></td>
         <td style="padding-top: 22px;">
             <a th:href="@{'/players/' + ${player.steamId32}}" class="btn btn-info">VIEW</a>
             &nbsp

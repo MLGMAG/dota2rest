@@ -18,27 +18,27 @@
                 <div class="panel-body" style="margin-top: 30px;">
 
                     <div class="row indent">
-                        <div class="col text-center title">Id:</div>
+                        <div class="col text-center table-title">Id:</div>
                         <div class="col text-center data" th:text="*{steamId32}"></div>
                     </div>
 
                     <div class="row indent">
-                        <div class="col text-center title">Name:</div>
+                        <div class="col text-center table-title">Name:</div>
                         <div class="col text-center data" th:text="*{name}"></div>
                     </div>
 
                     <div class="row indent">
-                        <div class="col text-center title">Steam Url:</div>
+                        <div class="col text-center table-title">Steam Url:</div>
                         <div class="col text-center data" th:text="*{steamUrl}"></div>
                     </div>
 
                     <div class="row indent">
-                        <div class="col text-center title">Solo mmr:</div>
+                        <div class="col text-center table-title">Solo mmr:</div>
                         <div class="col text-center data" th:text="*{solo_competitive_rank}"></div>
                     </div>
 
                     <div class="row indent">
-                        <div class="col text-center title">Competitive mmr:</div>
+                        <div class="col text-center table-title">Competitive mmr:</div>
                         <div class="col text-center data" th:if="${player.competitive_rank} != null"
                              th:text="*{competitive_rank}"></div>
                         <div class="col text-center data" th:unless="${player.competitive_rank} != null">Not
@@ -60,7 +60,7 @@
 
             <div class="panel" th:if="${player} == null">
                 <div class="panel-heading" style="margin-top: 30px;">
-                    <h4 class="text-center title">Object not found</h4>
+                    <h4 class="text-center table-title">Object not found</h4>
                 </div>
             </div>
 
