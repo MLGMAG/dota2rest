@@ -36,7 +36,7 @@ public class PlayersController {
         model.addAttribute(new Player());
         model.addAttribute("deleteError", deleteError != null);
         model.addAttribute("saveError", saveError != null);
-        model.addAttribute("title", "Saved players");
+        model.addAttribute("title", "Players");
         return "players";
     }
 
