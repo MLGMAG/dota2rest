@@ -27,10 +27,10 @@ public class PlayersController {
         this.apiService = apiService;
     }
 
-    @GetMapping("/saved")
-    public String savedPlayers(@RequestParam(value = "saveError", required = false) String saveError,
-                               @RequestParam(value = "deleteError", required = false) String deleteError,
-                               Model model) {
+    @GetMapping
+    public String players(@RequestParam(value = "saveError", required = false) String saveError,
+                          @RequestParam(value = "deleteError", required = false) String deleteError,
+                          Model model) {
         model.addAttribute("players", playerService.findAll());
         model.addAttribute(new Player());
         model.addAttribute("deleteError", deleteError != null);
@@ -59,11 +59,11 @@ public class PlayersController {
         Player player = apiService.findPlayerById(id);
 
         if (player == null) {
-            return "redirect:/database/players/saved?saveError";
+            return "redirect:/database/players?saveError";
         }
 
         playerService.save(player);
-        return "redirect:/database/players/saved";
+        return "redirect:/database/players";
     }
 
     @GetMapping("/delete")
@@ -71,10 +71,10 @@ public class PlayersController {
         Optional<Player> player = playerService.findById(id);
 
         if (!player.isPresent()) {
-            return "redirect:/database/players/saved?deleteError";
+            return "redirect:/database/players?deleteError";
         }
 
         playerService.delete(player.get());
-        return "redirect:/database/players/saved";
+        return "redirect:/database/players";
     }
 }

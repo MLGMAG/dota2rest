@@ -47,7 +47,7 @@
                     </div>
 
                     <h2 class="text-center" style="margin-bottom: 20px;">
-                        <a th:href="@{/database/players/saved}" class="btn btn-secondary" role="button">Back</a>
+                        <a th:href="@{/database/players}" class="btn btn-secondary" role="button">Back</a>
                         <a th:href="@{/database/players/save/(id=*{steamId32})}" th:unless="*{isInDB}"
                            class="btn btn-success" role="button">Save</a>
                         <a href="#" th:if="*{isInDB}" class="btn btn-success disabled"
