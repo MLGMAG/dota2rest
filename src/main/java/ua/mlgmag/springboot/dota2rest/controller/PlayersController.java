@@ -11,6 +11,8 @@ import ua.mlgmag.springboot.dota2rest.definition.PlayerService;
 import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.services.ApiService;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("database/players")
 public class PlayersController {
@@ -26,9 +28,13 @@ public class PlayersController {
     }
 
     @GetMapping("/saved")
-    public String savedPlayers(Model model) {
+    public String savedPlayers(@RequestParam(value = "saveError", required = false) String saveError,
+                               @RequestParam(value = "deleteError", required = false) String deleteError,
+                               Model model) {
         model.addAttribute("players", playerService.findAll());
         model.addAttribute(new Player());
+        model.addAttribute("deleteError", deleteError != null);
+        model.addAttribute("saveError", saveError != null);
         model.addAttribute("title", "Saved players");
         return "players";
     }
@@ -50,13 +56,25 @@ public class PlayersController {
 
     @GetMapping("/save")
     public String savePlayer(@RequestParam(value = "id") Integer id) {
-        playerService.save(apiService.findPlayerById(id));
+        Player player = apiService.findPlayerById(id);
+
+        if (player == null) {
+            return "redirect:/database/players/saved?saveError";
+        }
+
+        playerService.save(player);
         return "redirect:/database/players/saved";
     }
 
     @GetMapping("/delete")
     public String deletePlayer(@RequestParam("id") Integer id) {
-        playerService.delete(playerService.findById(id).orElse(null));
+        Optional<Player> player = playerService.findById(id);
+
+        if (!player.isPresent()) {
+            return "redirect:/database/players/saved?deleteError";
+        }
+
+        playerService.delete(player.get());
         return "redirect:/database/players/saved";
     }
 }
