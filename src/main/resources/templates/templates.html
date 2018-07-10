@@ -33,6 +33,39 @@
     </div>
 </nav>
 
+<!--Navigation bar for logged users-->
+<nav class="navbar navbar-expand-sm navbar-light bg-light" th:fragment="logout_navbar">
+
+    <div class="navbar-brand" th:text="${title}"></div>
+
+    <div class="collapse navbar-collapse">
+
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/logout}"><span class="fas fa-sign-out-alt" aria-hidden="true"></span>
+                    Logout</a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+<script th:fragment="passwords_match_script">
+    var password = document.getElementById("password"),
+        confirmPassword = document.getElementById("confirmPassword");
+
+    function validatePassword() {
+        if (password.value !== confirmPassword.value) {
+            confirmPassword.setCustomValidity("Passwords Don't Match");
+        } else {
+            confirmPassword.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirmPassword.onkeyup = validatePassword;
+</script>
+
 <div th:fragment="allJss">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
             integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
