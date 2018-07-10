@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<th:block th:replace="templates :: header"></th:block>
+
+<body>
+
+<th:block th:replace="templates :: signIn&Up_navbar"></th:block>
+
+<div class="container">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="panel" style="margin-top: 80px;">
+                <div class="panel-body">
+                    <form th:object="${user}" th:action="@{/signIn}" method="post">
+                        <fieldset>
+
+                            <legend th:text="${title}"></legend>
+
+                            <div th:if="${logout}">
+                                <div class="alert alert-info fade show" role="alert">
+                                    You've has been logged out successfully
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div th:if="${regSuccess}">
+                                <div class="alert alert-success fade show" role="alert">
+                                    Registration completed successfully
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div th:if="${error}">
+                                <div class="alert alert-danger fade show" role="alert">
+                                    Invalid username or password
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input class="form-control" type="text" placeholder="Username" th:field="*{username}"
+                                       required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input class="form-control" type="password" placeholder="Password"
+                                       th:field="*{password}" required>
+                            </div>
+
+                            <input class="btn btn-success btn-block" type="submit" value="Sign In">
+
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:include="templates :: allJss"></th:block>
+
+</body>
+</html>
