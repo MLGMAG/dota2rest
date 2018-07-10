@@ -31,7 +31,7 @@ public class SecurityController {
         this.securityConfig = securityConfig;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("title", "Home");
         return "home";
