@@ -37,7 +37,7 @@ public class PlayersController {
         model.addAttribute("deleteError", deleteError != null);
         model.addAttribute("saveError", saveError != null);
         model.addAttribute("title", "Players");
-        return "players";
+        return "Player/players";
     }
 
     @GetMapping("/{id}")
@@ -52,7 +52,7 @@ public class PlayersController {
         player.setIsInDB(playerService.existById(player.getSteamId32()));
         model.addAttribute("player", player);
         model.addAttribute("title", player.getName());
-        return "player";
+        return "Player/player";
     }
 
     @GetMapping("/save")

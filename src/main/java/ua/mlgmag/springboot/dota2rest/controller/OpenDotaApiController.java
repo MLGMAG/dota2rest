@@ -35,7 +35,7 @@ public class OpenDotaApiController {
         playerById.setIsInDB(playerService.existById(playerById.getSteamId32()));
         model.addAttribute("player", playerById);
         model.addAttribute("title", "Player");
-        return "player";
+        return "Player/player";
     }
 
     @GetMapping("/players/{id}/peers")
@@ -51,6 +51,6 @@ public class OpenDotaApiController {
         model.addAttribute("playerName", player.getName());
         model.addAttribute("peers", apiService.findAllPeersByPlayerId(id));
         model.addAttribute("title", "Pears");
-        return "peers";
+        return "Player/peers";
     }
 }
