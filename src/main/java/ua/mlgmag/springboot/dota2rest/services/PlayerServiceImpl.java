@@ -30,8 +30,8 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Optional<Player> findById(Integer integer) {
-        return playerRepository.findById(integer);
+    public Optional<Player> findById(Integer id) {
+        return playerRepository.findById(id);
     }
 
     @Override
