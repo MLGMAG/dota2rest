@@ -23,6 +23,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
+        user.setEnabled(true);
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
         user.setAuthorities(ImmutableSet.of(Authority.USER));
         userRepository.save(user);
     }
