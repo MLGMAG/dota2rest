@@ -12,6 +12,7 @@ import ua.mlgmag.springboot.dota2rest.model.Player;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,8 +28,8 @@ public class ApiService {
         this.playerService = playerService;
     }
 
-    public Player findPlayerById(int id) {
-        return toPlayer(openDotaApiClient.findPlayerById(id));
+    public Optional<Player> findPlayerById(int id) {
+        return Optional.ofNullable(toPlayer(openDotaApiClient.findPlayerById(id)));
     }
 
     public List<Peer> findAllPeersByPlayerId(int id) {

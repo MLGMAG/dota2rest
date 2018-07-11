@@ -8,6 +8,8 @@ import ua.mlgmag.springboot.dota2rest.definition.PlayerService;
 import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.services.ApiService;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/api/openDotaApi")
 public class OpenDotaApiController {
@@ -24,31 +26,33 @@ public class OpenDotaApiController {
 
     @PostMapping("/players")
     public String playerPost(@ModelAttribute("player") Player player, Model model) {
-        Player playerById = apiService.findPlayerById(player.getSteamId32());
+        Optional<Player> playerOptional = apiService.findPlayerById(player.getSteamId32());
 
-        if (playerById == null) {
+        if (!playerOptional.isPresent()) {
             model.addAttribute("player", null);
             model.addAttribute("title", "Player not found");
             return "player";
         }
 
-        playerById.setIsInDB(playerService.existById(playerById.getSteamId32()));
-        model.addAttribute("player", playerById);
+        Player playerPresent = playerOptional.get();
+
+        playerPresent.setIsInDB(playerService.existById(playerPresent.getSteamId32()));
+        model.addAttribute("player", playerPresent);
         model.addAttribute("title", "Player");
         return "Player/player";
     }
 
     @GetMapping("/players/{id}/peers")
     public String playerPeers(@PathVariable(value = "id") Integer id, Model model) {
-        Player player = apiService.findPlayerById(id);
+        Optional<Player> playerOptional = apiService.findPlayerById(id);
 
-        if (player == null) {
+        if (!playerOptional.isPresent()) {
             model.addAttribute("peers", null);
             model.addAttribute("title", "Player not found");
             return "peers";
         }
 
-        model.addAttribute("playerName", player.getName());
+        model.addAttribute("playerName", playerOptional.get().getName());
         model.addAttribute("peers", apiService.findAllPeersByPlayerId(id));
         model.addAttribute("title", "Pears");
         return "Player/peers";
