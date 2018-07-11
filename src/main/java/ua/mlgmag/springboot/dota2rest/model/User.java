@@ -20,10 +20,6 @@ import java.util.Set;
 @Document(collection = "users")
 public class User implements UserDetails {
 
-    public boolean isAccountNonExpired;
-    public boolean isAccountNonLocked;
-    public boolean isCredentialsNonExpired;
-    public boolean isEnabled;
     @Id
     private String id;
     @Indexed(unique = true)
@@ -35,5 +31,9 @@ public class User implements UserDetails {
     @Transient
     private String confirmPassword;
     private Set<Authority> authorities;
+    private boolean isAccountNonExpired;
+    private boolean isAccountNonLocked;
+    private boolean isCredentialsNonExpired;
+    private boolean isEnabled;
 
 }
