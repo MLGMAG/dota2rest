@@ -4,36 +4,50 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.userdetails.UserDetails;
 import ua.mlgmag.springboot.dota2rest.enums.Authority;
 
+import javax.persistence.*;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@Document(collection = "users")
+@Entity
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
-    private String id;
-    @Indexed(unique = true)
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(name = "id", columnDefinition = "uuid", unique = true, nullable = false)
+    private UUID id;
+    @Column(name = "username", columnDefinition = "VARCHAR(255)", unique = true, nullable = false)
     private String username;
-    @Indexed(unique = true)
+    @Column(name = "email", columnDefinition = "VARCHAR(255)", unique = true, nullable = false)
     private String email;
+    @Column(name = "name", columnDefinition = "VARCHAR(255)", nullable = false)
     private String name;
+    @Column(name = "password", columnDefinition = "VARCHAR(255)", nullable = false)
     private String password;
     @Transient
     private String confirmPassword;
+    //    private List<Player> playerCollection;
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(targetClass = Authority.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "id"))
     private Set<Authority> authorities;
+
+    @Column(name = "non_expired", columnDefinition = "boolean", nullable = false)
     private boolean isAccountNonExpired;
+    @Column(name = "non_locked", columnDefinition = "boolean", nullable = false)
     private boolean isAccountNonLocked;
+    @Column(name = "credentials_non_expired", columnDefinition = "boolean", nullable = false)
     private boolean isCredentialsNonExpired;
+    @Column(name = "enabled", columnDefinition = "boolean", nullable = false)
     private boolean isEnabled;
 
 }

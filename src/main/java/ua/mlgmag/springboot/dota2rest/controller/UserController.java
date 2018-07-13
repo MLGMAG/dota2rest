@@ -28,7 +28,7 @@ public class UserController {
     public String profile(Model model) {
         User user = userService.findByUsername(securityService.findLoggedInUsername());
         model.addAttribute("title", user.getUsername());
-        model.addAttribute("players", user.getPlayerCollection());
+//        model.addAttribute("players", user.getPlayerCollection());
         return "User/Profile";
     }
 

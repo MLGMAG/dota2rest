@@ -2,7 +2,9 @@ package ua.mlgmag.springboot.dota2rest.definition;
 
 import ua.mlgmag.springboot.dota2rest.model.User;
 
-public interface UserService extends GenericService<User, String> {
+import java.util.UUID;
+
+public interface UserService extends GenericService<User, UUID> {
 
     void update(User user);
 

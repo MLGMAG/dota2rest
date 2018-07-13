@@ -10,6 +10,7 @@ import ua.mlgmag.springboot.dota2rest.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findById(String id) {
+    public Optional<User> findById(UUID id) {
         return userRepository.findById(id);
     }
 
