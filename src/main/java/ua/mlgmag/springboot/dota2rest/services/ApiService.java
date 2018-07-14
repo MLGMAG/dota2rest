@@ -1,5 +1,6 @@
 package ua.mlgmag.springboot.dota2rest.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.mlgmag.springboot.dota2rest.constants.PlayerConstants;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ApiService {
 
     private final OpenDotaApiClient openDotaApiClient;
@@ -29,15 +31,18 @@ public class ApiService {
     }
 
     public Optional<Player> findPlayerById(int id) {
+        log.info("findPlayerById {}", id);
         return Optional.ofNullable(toPlayer(openDotaApiClient.findPlayerById(id)));
     }
 
     public List<Peer> findAllPeersByPlayerId(int id) {
+        log.info("findAllPeersByPlayerId {}", id);
         return Arrays.stream(openDotaApiClient.findPeersByPlayerId(id)).map(this::toPeer).filter(peer -> peer.getGames() > 25)
                 .collect(Collectors.toList());
     }
 
     private Peer toPeer(PeerDto input) {
+        log.info("toPeer {}", input);
         return new Peer(
                 input.getAccount_id(),
                 input.getWin(),
@@ -55,7 +60,7 @@ public class ApiService {
         PlayerDto validateInput = playerDtoValidation(input);
         PlayerProfileDto profileDto = validateInput.getProfile();
         String steamId64 = String.valueOf(PlayerConstants.ZERO + profileDto.getAccount_id());
-
+        log.info("toPlayer {}", input);
         return new Player(
                 profileDto.getAccount_id(),
                 profileDto.getName(),
@@ -85,6 +90,7 @@ public class ApiService {
             }
         }
 
+        log.info("playerDtoValidation {}", input);
         return input;
     }
 }

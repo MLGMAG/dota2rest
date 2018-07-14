@@ -33,5 +33,7 @@ dependencies {
 	compileOnly('org.projectlombok:lombok')
 	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.2'
 	compile group: 'com.google.guava', name: 'guava', version: '11.0.2'
+	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+	compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
