@@ -1,6 +1,6 @@
 CREATE TABLE users (
 
-id                        uuid            NOT NULL UNIQUE,
+id                        uuid            NOT NULL,
 username                  VARCHAR(255)    NOT NULL UNIQUE,
 email                     VARCHAR(255)    NOT NULL UNIQUE,
 name                      VARCHAR(255)    NOT NULL,
@@ -15,13 +15,21 @@ enabled                   boolean         NOT NULL,
 PRIMARY KEY(id)
 );
 
+CREATE TABLE user_authority (
+
+id                        uuid NOT NULL,
+authority                 VARCHAR(255) NOT NULL,
+
+FOREIGN KEY(id) REFERENCES users(id)
+);
+
 CREATE TABLE players (
 
-steam_id32                 INTEGER         NOT NULL UNIQUE,
+steam_id32                INTEGER         NOT NULL,
 name                      VARCHAR(255)    NOT NULL,
-steam_id64                 VARCHAR(255)    NOT NULL UNIQUE,
+steam_id64                VARCHAR(255)    NOT NULL UNIQUE,
 avatar                    VARCHAR(255)    NOT NULL,
-steam_url                  VARCHAR(255)    NOT NULL,
+steam_url                 VARCHAR(255)    NOT NULL,
 solo_competitive_rank     VARCHAR(255),
 competitive_rank          VARCHAR(255),
 
