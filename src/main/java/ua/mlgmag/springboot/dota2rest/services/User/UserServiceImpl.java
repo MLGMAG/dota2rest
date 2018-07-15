@@ -15,7 +15,6 @@ import ua.mlgmag.springboot.dota2rest.services.SecurityServiceImpl;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -76,7 +75,7 @@ public class UserServiceImpl implements UserService {
             return;
         }
         playerCollection.add(player);
-        user.setPlayerCollection(playerCollection.stream().distinct().collect(Collectors.toList()));
+        user.setPlayerCollection(playerCollection);
         save(user);
     }
 
