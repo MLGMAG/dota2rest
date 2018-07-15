@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "playerCollection")
 @NoArgsConstructor
 @Entity
 @Table(name = "users")

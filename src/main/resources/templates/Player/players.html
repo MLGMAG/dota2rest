@@ -59,6 +59,9 @@
             &nbsp
             <a th:href="${player.steamUrl}" class="btn btn-primary">Steam Profile</a>
             &nbsp
+            <a th:href="@{/user/collection/add/(id=${player.steamId32})}"
+               class="btn btn-success">Add to your collection</a>
+            &nbsp
             <a th:href="@{'/api/openDotaApi/players/' + ${player.steamId32} + '/peers'}"
                class="btn btn-warning">PEERS</a>
             &nbsp

@@ -1,17 +1,21 @@
 package ua.mlgmag.springboot.dota2rest.services.User;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.mlgmag.springboot.dota2rest.definition.UserService;
 import ua.mlgmag.springboot.dota2rest.enums.Authority;
+import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.model.User;
 import ua.mlgmag.springboot.dota2rest.repository.UserRepository;
+import ua.mlgmag.springboot.dota2rest.services.SecurityServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -19,9 +23,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private final SecurityServiceImpl securityService;
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, SecurityServiceImpl securityService) {
         this.userRepository = userRepository;
+        this.securityService = securityService;
     }
 
     @Override
@@ -57,6 +64,20 @@ public class UserServiceImpl implements UserService {
     public User findByUsername(String username) {
         log.info("findByUsername {}", username);
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public void saveToCollection(Player player) {
+        User user = findByUsername(securityService.findLoggedInUsername());
+        List<Player> playerCollection = user.getPlayerCollection();
+        if (playerCollection == null) {
+            user.setPlayerCollection(ImmutableList.of(player));
+            save(user);
+            return;
+        }
+        playerCollection.add(player);
+        user.setPlayerCollection(playerCollection.stream().distinct().collect(Collectors.toList()));
+        save(user);
     }
 
     @Override

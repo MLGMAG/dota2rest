@@ -1,5 +1,6 @@
 package ua.mlgmag.springboot.dota2rest.definition;
 
+import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.model.User;
 
 import java.util.UUID;
@@ -10,4 +11,5 @@ public interface UserService extends GenericService<User, UUID> {
 
     User findByUsername(String username);
 
+    void saveToCollection(Player player);
 }
