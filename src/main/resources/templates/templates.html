@@ -43,10 +43,22 @@
 
     <div class="collapse navbar-collapse">
 
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    <span class="fas fa-database" aria-hidden="true"></span>
+                    Database</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" th:href="@{database/players}">Players</a>
+                </div>
+            </li>
+        </ul>
+
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/user/profile}">
-                    <span class="fas fa-user-alt" aria-hidden="true"></span>
+                    <span class="fas fa-user" aria-hidden="true"></span>
                     Profile</a>
             </li>
             <li class="nav-item">
