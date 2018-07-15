@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ua.mlgmag.springboot.dota2rest.constants.UrlMappingConstants;
 import ua.mlgmag.springboot.dota2rest.definition.PlayerService;
 import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.services.ApiService;
@@ -11,7 +12,7 @@ import ua.mlgmag.springboot.dota2rest.services.ApiService;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/api/openDotaApi")
+@RequestMapping(UrlMappingConstants.OPEN_DOTA_API_CONTROLLER_REQUEST_MAPPING)
 public class OpenDotaApiController {
 
     private final ApiService apiService;
