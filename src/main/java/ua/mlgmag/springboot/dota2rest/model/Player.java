@@ -3,6 +3,7 @@ package ua.mlgmag.springboot.dota2rest.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,6 +29,9 @@ public class Player {
     private String solo_competitive_rank;
     @Column(name = "competitive_rank", columnDefinition = "VARCHAR(255)")
     private String competitive_rank;
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "playerCollection")
+    private Set<User> users;
 
     @Transient
     private Boolean isInDB;

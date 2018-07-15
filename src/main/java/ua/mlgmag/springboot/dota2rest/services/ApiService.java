@@ -68,6 +68,7 @@ public class ApiService {
                 PlayerConstants.PLAYER_PROFILE_PREFIX.concat(steamId64),
                 validateInput.getSolo_competitive_rank(),
                 validateInput.getCompetitive_rank(),
+                null,
                 null);
     }
 
