@@ -47,7 +47,6 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Boolean existById(Integer id) {
-        log.info("existById {}", id);
         return playerRepository.existsById(id);
     }
 }

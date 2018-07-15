@@ -42,7 +42,6 @@ public class ApiService {
     }
 
     private Peer toPeer(PeerDto input) {
-        log.info("toPeer {}", input);
         return new Peer(
                 input.getAccount_id(),
                 input.getWin(),
