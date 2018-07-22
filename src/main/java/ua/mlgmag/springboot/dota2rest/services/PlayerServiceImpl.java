@@ -41,7 +41,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public List<Player> findAll() {
-        log.info("findAll {}");
+        log.info("findAll");
         return playerRepository.findAll();
     }
 
