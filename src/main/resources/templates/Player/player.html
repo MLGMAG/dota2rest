@@ -54,7 +54,7 @@
                     </div>
 
                     <h2 class="text-center" style="margin-bottom: 30px; margin-top: 45px;">
-                        <a th:href="@{/database/players}" class="btn btn-secondary" role="button">Back</a>
+                        <button onclick="goBack()" class="btn btn-secondary" role="button">Back</button>
                         <a th:href="@{/database/players/save/(id=*{steamId32})}" th:unless="*{isInDB}"
                            class="btn btn-success" role="button">Save to Database</a>
                         <a href="#" th:if="*{isInDB}" class="btn btn-success disabled"
@@ -74,6 +74,8 @@
 </div>
 
 <th:block th:include="templates :: allJss"></th:block>
+
+<th:block th:replace="templates :: goBackButtonScript"></th:block>
 
 </body>
 </html>
