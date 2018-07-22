@@ -11,7 +11,6 @@ import ua.mlgmag.springboot.dota2rest.constants.UrlMappingConstants;
 import ua.mlgmag.springboot.dota2rest.definition.PlayerService;
 import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.services.ApiService;
-import ua.mlgmag.springboot.dota2rest.services.User.UserServiceImpl;
 
 import java.util.Optional;
 
@@ -24,7 +23,7 @@ public class DatabasePlayersController {
     private final ApiService apiService;
 
     @Autowired
-    public DatabasePlayersController(PlayerService playerService, ApiService apiService, UserServiceImpl userService) {
+    public DatabasePlayersController(PlayerService playerService, ApiService apiService) {
         this.playerService = playerService;
         this.apiService = apiService;
     }
