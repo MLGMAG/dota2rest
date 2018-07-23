@@ -49,7 +49,7 @@ public class DatabasePlayersController {
             return "player";
         }
 
-        player.setIsInDB(playerService.existById(player.getSteamId32()));
+        player.setIsInDB(playerService.existInDatabaseById(player.getSteamId32()));
         model.addAttribute("player", player);
         model.addAttribute("title", player.getName());
         return "Player/player";

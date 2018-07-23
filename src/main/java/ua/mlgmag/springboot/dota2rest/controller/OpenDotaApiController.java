@@ -37,7 +37,7 @@ public class OpenDotaApiController {
 
         Player playerPresent = playerOptional.get();
 
-        playerPresent.setIsInDB(playerService.existById(playerPresent.getSteamId32()));
+        playerPresent.setIsInDB(playerService.existInDatabaseById(playerPresent.getSteamId32()));
         model.addAttribute("player", playerPresent);
         model.addAttribute("title", "Player");
         return "Player/player";

@@ -50,7 +50,7 @@ public class ApiService {
                 input.getWith_games(),
                 input.getPersonaname(),
                 input.getAvatarfull(),
-                playerService.existById(input.getAccount_id()));
+                playerService.existInDatabaseById(input.getAccount_id()));
     }
 
     private Player toPlayer(PlayerDto input) {
