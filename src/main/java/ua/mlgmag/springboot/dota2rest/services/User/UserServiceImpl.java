@@ -1,6 +1,5 @@
 package ua.mlgmag.springboot.dota2rest.services.User;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import ua.mlgmag.springboot.dota2rest.services.SecurityServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -68,9 +68,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveToCollection(Player player) {
         User user = findByUsername(securityService.findLoggedInUsername());
-        List<Player> playerCollection = user.getPlayerCollection();
+        Set<Player> playerCollection = user.getPlayerCollection();
         if (playerCollection == null) {
-            user.setPlayerCollection(ImmutableList.of(player));
+            user.setPlayerCollection(ImmutableSet.of(player));
             save(user);
             return;
         }

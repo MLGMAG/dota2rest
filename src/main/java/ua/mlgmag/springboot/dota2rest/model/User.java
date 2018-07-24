@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import ua.mlgmag.springboot.dota2rest.enums.Authority;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -39,7 +38,7 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_players", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "player_id"))
     @Column(name = "player")
-    private List<Player> playerCollection;
+    private Set<Player> playerCollection;
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Authority.class, fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "id"))
