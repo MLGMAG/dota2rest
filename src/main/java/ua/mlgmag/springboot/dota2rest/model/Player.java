@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
