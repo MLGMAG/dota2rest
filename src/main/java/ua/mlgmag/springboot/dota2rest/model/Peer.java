@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Transient;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Peer {
+
     private int steamId32;
     private int win;
     private int games;
