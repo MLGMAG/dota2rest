@@ -30,6 +30,7 @@ dependencies {
 	runtime('org.springframework.boot:spring-boot-devtools')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.hibernate.validator:hibernate-validator")
 	compileOnly('org.projectlombok:lombok')
 	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.2'
 	compile group: 'com.google.guava', name: 'guava', version: '11.0.2'

@@ -17,10 +17,10 @@ PRIMARY KEY(id)
 
 CREATE TABLE user_authorities (
 
-id                        uuid NOT NULL,
-authority                 VARCHAR(255) NOT NULL,
+user_id                   uuid            NOT NULL,
+authority_id              VARCHAR(255)    NOT NULL,
 
-FOREIGN KEY(id)           REFERENCES users(id)
+FOREIGN KEY(user_id)           REFERENCES users(id)
 );
 
 CREATE TABLE players (
@@ -43,5 +43,4 @@ player_id                 INTEGER         NOT NULL,
 
 FOREIGN KEY(user_id)      REFERENCES users(id),
 FOREIGN KEY(player_id)    REFERENCES players(steam_id32)
-
 );
