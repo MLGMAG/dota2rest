@@ -46,7 +46,7 @@ public class SecurityController {
 
     @PostMapping("signUp")
     public String registration(@ModelAttribute("user") User user) {
-        user.setPassword(securityConfig.bCryptPasswordEncoder().encode(user.getPassword()));
+        user.setPassword(securityConfig.getPasswordEncoder().encode(user.getPassword()));
         userService.save(user);
         return UrlMappingConstants.REDIRECT + "signIn?regSuccess";
     }
