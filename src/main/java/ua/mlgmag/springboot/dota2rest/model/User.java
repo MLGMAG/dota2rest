@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import ua.mlgmag.springboot.dota2rest.enums.Authority;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -50,7 +51,7 @@ public class User implements UserDetails {
     @ElementCollection(targetClass = Authority.class, fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "authority", columnDefinition = "VARCHAR(255)", nullable = false)
-    private Set<Authority> authorities;
+    private Set<Authority> authorities = new HashSet<>();
 
     @Column(name = "non_expired", columnDefinition = "boolean", nullable = false)
     private boolean isAccountNonExpired;

@@ -3,6 +3,7 @@ package ua.mlgmag.springboot.dota2rest.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -37,7 +38,7 @@ public class Player {
     private String competitive_rank;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "playerCollection")
-    private Set<User> users;
+    private Set<User> users = new HashSet<>();
 
     @Transient
     private Boolean isInDB;
