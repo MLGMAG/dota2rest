@@ -1,5 +1,6 @@
 package ua.mlgmag.springboot.dota2rest.model;
 
+import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import ua.mlgmag.springboot.dota2rest.enums.Authority;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -49,20 +49,20 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Authority.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "id"))
+    @JoinTable(name = "user_authorities", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "authority", columnDefinition = "VARCHAR(255)", nullable = false)
-    private Set<Authority> authorities = new HashSet<>();
+    private Set<Authority> authorities = ImmutableSet.of(Authority.USER);
 
     @Column(name = "non_expired", columnDefinition = "boolean", nullable = false)
-    private boolean isAccountNonExpired;
+    private boolean isAccountNonExpired = true;
 
     @Column(name = "non_locked", columnDefinition = "boolean", nullable = false)
-    private boolean isAccountNonLocked;
+    private boolean isAccountNonLocked = true;
 
     @Column(name = "credentials_non_expired", columnDefinition = "boolean", nullable = false)
-    private boolean isCredentialsNonExpired;
+    private boolean isCredentialsNonExpired = true;
 
     @Column(name = "enabled", columnDefinition = "boolean", nullable = false)
-    private boolean isEnabled;
+    private boolean isEnabled = true;
 
 }

@@ -1,11 +1,9 @@
 package ua.mlgmag.springboot.dota2rest.services.User;
 
-import com.google.common.collect.ImmutableSet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.mlgmag.springboot.dota2rest.definition.UserService;
-import ua.mlgmag.springboot.dota2rest.enums.Authority;
 import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.model.User;
 import ua.mlgmag.springboot.dota2rest.repository.UserRepository;
@@ -13,7 +11,6 @@ import ua.mlgmag.springboot.dota2rest.services.SecurityServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -32,11 +29,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
-        user.setEnabled(true);
-        user.setAccountNonExpired(true);
-        user.setAccountNonLocked(true);
-        user.setCredentialsNonExpired(true);
-        user.setAuthorities(ImmutableSet.of(Authority.USER));
         log.info("save {}", user);
         userRepository.save(user);
     }
