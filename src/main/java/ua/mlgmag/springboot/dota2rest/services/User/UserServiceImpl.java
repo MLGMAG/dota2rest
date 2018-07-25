@@ -7,11 +7,11 @@ import ua.mlgmag.springboot.dota2rest.definition.UserService;
 import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.model.User;
 import ua.mlgmag.springboot.dota2rest.repository.UserRepository;
-import ua.mlgmag.springboot.dota2rest.services.SecurityServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -19,12 +19,10 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final SecurityServiceImpl securityService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, SecurityServiceImpl securityService) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.securityService = securityService;
     }
 
     @Override
@@ -36,7 +34,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update(User user) {
         log.info("update {}", user);
-        userRepository.saveAndFlush(user);
+        userRepository.save(user);
     }
 
     @Override
@@ -58,17 +56,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveToCollection(Player player) {
-        User user = findByUsername(securityService.findLoggedInUsername());
-        Set<Player> playerCollection = user.getPlayerCollection();
-        if (playerCollection == null) {
-            user.setPlayerCollection(ImmutableSet.of(player));
-            save(user);
-            return;
-        }
-        playerCollection.add(player);
-        user.setPlayerCollection(playerCollection);
-        save(user);
+    public void saveToCollection(Player player, String username) {
+        User user = findByUsername(username);
+        user.getPlayerCollection().add(player);
+        log.info("saveToCollection {}", player);
+        update(user);
+    }
+
+    @Override
+    public void deleteFromCollection(Player player, String username) {
+        User user = findByUsername(username);
+        user.setPlayerCollection(user.getPlayerCollection().stream()
+                .filter(player1 -> player1.getSteamId32() != player.getSteamId32()).collect(Collectors.toSet()));
+        log.info("deleteFromCollection {}", player);
+        update(user);
     }
 
     @Override

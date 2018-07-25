@@ -11,5 +11,8 @@ public interface UserService extends GenericService<User, UUID> {
 
     User findByUsername(String username);
 
-    void saveToCollection(Player player);
+    void saveToCollection(Player player, String username);
+
+    void deleteFromCollection(Player player, String username);
+
 }
