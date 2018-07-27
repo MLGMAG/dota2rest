@@ -10,34 +10,63 @@
 <div class="container" style="margin-top:35px;">
     <div class="card">
         <div class="card-header">
-            <h5 class="mb-0" th:text="${title}"></h5>
+            <h5 class="mb-0">MLG_MAg</h5>
         </div>
         <div class="card-body">
-            <p class="card-text" style="font-size:22px;">Collection</p>
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover table-sm">
-                    <thead>
-                    <tr>
-                        <th>Icon</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                       aria-controls="profile" aria-selected="true">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="collection-tab" data-toggle="tab" href="#collection" role="tab"
+                       aria-controls="profile" aria-selected="false">Collection</a>
+                </li>
+            </ul>
 
-                    <tbody>
-                    <tr th:each="player : ${players}">
-                        <td><img th:src="${player.avatar}" alt="No image" height="64" width="64"></td>
-                        <td class="data pad-top28" th:text="${player.name}"></td>
-                        <td>
-                            <a th:href="@{'/database/players/' + ${player.steamId32}}" class="btn btn-info">VIEW</a>
-                            &nbsp
-                            <a th:href="${player.steamUrl}" class="btn btn-primary">Steam Profile</a>
-                            &nbsp
-                            <a th:href="@{/user/collection/delete/(id=${player.steamId32})}" class="btn btn-danger">DELETE</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="row" style="margin-top: 40px; margin-left: 10px;">
+                        <div class="col-md-6" th:object="${user}">
+                            <div class="table-title mar-top10">Username</div>
+                            <div class="mar-top10 data-fw400" th:text="*{username}"></div>
+                            <div class="table-title mar-top10">Name</div>
+                            <div class="mar-top10 data-fw400" th:text="*{name}"></div>
+                            <div class="table-title mar-top10">Email</div>
+                            <div class="mar-top10 data-fw400 mar-bot30" th:text="*{email}"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="collection" role="tabpanel" aria-labelledby="collection-tab">
+                    <div class="table-responsive" style="margin-top: 40px;">
+                        <table class="table table-bordered table-hover table-sm">
+                            <thead>
+                            <tr>
+                                <th>Icon</th>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr th:each="player : ${players}">
+                                <td><img th:src="${player.avatar}" alt="No image" height="64" width="64"></td>
+                                <td class="data pad-top28" th:text="${player.name}"></td>
+                                <td>
+                                    <a th:href="@{'/database/players/' + ${player.steamId32}}"
+                                       class="btn btn-info">VIEW</a>
+                                    &nbsp
+                                    <a th:href="${player.steamUrl}" class="btn btn-primary">Steam Profile</a>
+                                    &nbsp
+                                    <a th:href="@{/user/collection/delete/(id=${player.steamId32})}"
+                                       class="btn btn-danger">DELETE</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

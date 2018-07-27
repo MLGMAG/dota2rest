@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.mlgmag.springboot.dota2rest.constants.UrlMappingConstants;
-import ua.mlgmag.springboot.dota2rest.definition.SecurityService;
 import ua.mlgmag.springboot.dota2rest.model.User;
 import ua.mlgmag.springboot.dota2rest.services.PlayerServiceImpl;
 import ua.mlgmag.springboot.dota2rest.services.User.UserServiceImpl;
@@ -21,19 +20,17 @@ public class UserController {
 
     private final PlayerServiceImpl playerService;
 
-    private final SecurityService securityService;
-
     @Autowired
-    public UserController(UserServiceImpl userService, PlayerServiceImpl playerService, SecurityService securityService) {
+    public UserController(UserServiceImpl userService, PlayerServiceImpl playerService) {
         this.userService = userService;
         this.playerService = playerService;
-        this.securityService = securityService;
     }
 
     @GetMapping("/profile")
     public String profile(@AuthenticationPrincipal User currentUser, Model model) {
         model.addAttribute("title", currentUser.getUsername());
-        model.addAttribute("players", userService.findByUsername(securityService.findLoggedInUsername()).getPlayerCollection());
+        model.addAttribute("user", userService.findByUsername(currentUser.getUsername()));
+        model.addAttribute("players", userService.findByUsername(currentUser.getUsername()).getPlayerCollection());
         return "User/Profile";
     }
 

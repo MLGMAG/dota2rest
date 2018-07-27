@@ -3,6 +3,11 @@
     font-weight: 500;
 }
 
+.data-fw400 {
+    font-size: 18px;
+    font-weight: 400;
+}
+
 .table-title {
     font-size: 18px;
     font-weight: bold;
@@ -32,4 +37,8 @@
 
 .mar-bot30 {
     margin-bottom: 30px;
+}
+
+.mar-top10 {
+    margin-top: 10px;
 }
