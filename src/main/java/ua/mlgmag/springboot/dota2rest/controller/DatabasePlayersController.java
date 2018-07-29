@@ -55,7 +55,7 @@ public class DatabasePlayersController {
 
         if (player == null) {
             model.addAttribute("title", "Object not found");
-            return "player";
+            return "Player/player";
         }
 
         player.setIsInDB(playerService.existInDatabaseById(player.getSteamId32()));
@@ -77,7 +77,11 @@ public class DatabasePlayersController {
     @GetMapping("/delete")
     public String deletePlayer(@RequestParam("id") Integer id) {
         try {
-            playerService.delete(playerService.findById(id));
+            Player player = playerService.findById(id);
+            if (!player.getUsers().isEmpty()) {
+                return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_PLAYERS_CONTROLLER_REQUEST_MAPPING + "?deleteError";
+            }
+            playerService.delete(player);
             return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_PLAYERS_CONTROLLER_REQUEST_MAPPING;
         } catch (IllegalStateException e) {
             return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_PLAYERS_CONTROLLER_REQUEST_MAPPING + "?deleteError";

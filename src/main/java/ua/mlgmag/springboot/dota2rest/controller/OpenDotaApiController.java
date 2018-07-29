@@ -31,10 +31,10 @@ public class OpenDotaApiController {
             model.addAttribute("player", player);
             model.addAttribute("title", "Player");
             return "Player/player";
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException | NullPointerException e) {
             model.addAttribute("player", null);
             model.addAttribute("title", "Player not found");
-            return "player";
+            return "Player/player";
         }
     }
 
@@ -49,7 +49,7 @@ public class OpenDotaApiController {
         } catch (IllegalStateException e) {
             model.addAttribute("peers", null);
             model.addAttribute("title", "Player not found");
-            return "peers";
+            return "Player/peers";
         }
     }
 }

@@ -9,24 +9,6 @@
 
 <h1 class="page-title">Players in database</h1>
 
-<div th:if="${saveError}" class="col-2 ml-auto mar-bot30">
-    <div class="alert alert-danger fade show" role="alert">
-        Player not saved in database
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-</div>
-
-<div th:if="${deleteError}" class="col-3 ml-auto mar-bot30">
-    <div class="alert alert-danger fade show" role="alert">
-        Player not removed from database
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-</div>
-
 <div class="container-fluid">
 
     <div class="col-2 ml-auto">
@@ -36,6 +18,21 @@
         </button>
     </div>
 
+</div>
+
+<div th:if="${saveError}" class="col-2 ml-auto mar-bot30">
+    <div class="alert alert-danger fade show" role="alert">
+        Player not saved in database
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+
+<div th:if="${deleteError}" class="col-2 ml-auto mar-bot30">
+    <div class="alert alert-danger fade show" role="alert">
+        Player not removed from database
+    </div>
 </div>
 
 <table class="table table-bordered table-hover" th:classappend="${players.size() > 7} ? table-sm : table-lg">
@@ -50,26 +47,26 @@
     </thead>
 
     <tbody th:each="player : ${players}">
-    <tr>
-        <td><img th:src="${player.avatar}" alt="No image" height="64" width="64"></td>
-        <td class="data pad-top28" th:text="${player.steamId32}"></td>
-        <td class="data pad-top28" th:text="${player.name}"></td>
+    <tr th:object="${player}">
+        <td><img th:src="*{avatar}" alt="No image" height="64" width="64"></td>
+        <td class="data pad-top28" th:text="*{steamId32}"></td>
+        <td class="data pad-top28" th:text="*{name}"></td>
         <td style="padding-top: 22px;">
-            <a th:href="@{'/database/players/' + ${player.steamId32}}" class="btn btn-info">VIEW</a>
+            <a th:href="@{'/database/players/' + *{steamId32}}" class="btn btn-info">VIEW</a>
             &nbsp
             <a th:href="${player.steamUrl}" class="btn btn-primary">Steam Profile</a>
             &nbsp
-            <a th:href="@{/user/collection/add/(id=${player.steamId32})}"
+            <a th:href="@{/user/collection/add/(id=*{steamId32})}"
                th:unless="${userCollectionPlayersIds.contains(player.getSteamId32())}"
                class="btn btn-success">Add to your collection</a>
             <a href="#" th:if="${userCollectionPlayersIds.contains(player.getSteamId32())}"
                class="btn btn-success disabled"
                aria-disabled="true">Saved in collection</a>
             &nbsp
-            <a th:href="@{'/api/openDotaApi/players/' + ${player.steamId32} + '/peers'}"
+            <a th:href="@{'/api/openDotaApi/players/' + *{steamId32} + '/peers'}"
                class="btn btn-warning">PEERS</a>
             &nbsp
-            <a th:href="@{/database/players/delete/(id=${player.steamId32})}" class="btn btn-danger">DELETE</a>
+            <a th:href="@{/database/players/delete/(id=*{steamId32})}" class="btn btn-danger">DELETE</a>
         </td>
     </tr>
     </tbody>
