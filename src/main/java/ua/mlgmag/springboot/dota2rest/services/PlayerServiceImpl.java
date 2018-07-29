@@ -8,7 +8,6 @@ import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.repository.PlayerRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -34,9 +33,9 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Optional<Player> findById(Integer id) {
+    public Player findById(Integer id) {
         log.info("findById {}", id);
-        return playerRepository.findById(id);
+        return playerRepository.findById(id).orElseThrow(() -> new IllegalStateException("Player not found"));
     }
 
     @Override

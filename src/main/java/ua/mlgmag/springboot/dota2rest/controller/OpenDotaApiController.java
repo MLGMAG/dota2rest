@@ -9,8 +9,6 @@ import ua.mlgmag.springboot.dota2rest.definition.PlayerService;
 import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.services.ApiService;
 
-import java.util.Optional;
-
 @Controller
 @RequestMapping(UrlMappingConstants.OPEN_DOTA_API_CONTROLLER_REQUEST_MAPPING)
 public class OpenDotaApiController {
@@ -26,36 +24,32 @@ public class OpenDotaApiController {
     }
 
     @PostMapping("/players")
-    public String playerPost(@ModelAttribute("player") Player player, Model model) {
-        Optional<Player> playerOptional = apiService.findPlayerById(player.getSteamId32());
-
-        if (!playerOptional.isPresent()) {
+    public String playerPost(@ModelAttribute("player") Player modelPlayer, Model model) {
+        try {
+            Player player = apiService.findPlayerById(modelPlayer.getSteamId32());
+            player.setIsInDB(playerService.existInDatabaseById(player.getSteamId32()));
+            model.addAttribute("player", player);
+            model.addAttribute("title", "Player");
+            return "Player/player";
+        } catch (IllegalStateException e) {
             model.addAttribute("player", null);
             model.addAttribute("title", "Player not found");
             return "player";
         }
-
-        Player playerPresent = playerOptional.get();
-
-        playerPresent.setIsInDB(playerService.existInDatabaseById(playerPresent.getSteamId32()));
-        model.addAttribute("player", playerPresent);
-        model.addAttribute("title", "Player");
-        return "Player/player";
     }
 
     @GetMapping("/players/{id}/peers")
     public String playerPeers(@PathVariable(value = "id") Integer id, Model model) {
-        Optional<Player> playerOptional = apiService.findPlayerById(id);
-
-        if (!playerOptional.isPresent()) {
+        try {
+            Player player = apiService.findPlayerById(id);
+            model.addAttribute("playerName", player.getName());
+            model.addAttribute("peers", apiService.findAllPeersByPlayerId(id));
+            model.addAttribute("title", "Pears");
+            return "Player/peers";
+        } catch (IllegalStateException e) {
             model.addAttribute("peers", null);
             model.addAttribute("title", "Player not found");
             return "peers";
         }
-
-        model.addAttribute("playerName", playerOptional.get().getName());
-        model.addAttribute("peers", apiService.findAllPeersByPlayerId(id));
-        model.addAttribute("title", "Pears");
-        return "Player/peers";
     }
 }

@@ -13,7 +13,6 @@ import ua.mlgmag.springboot.dota2rest.model.Player;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,9 +29,9 @@ public class ApiService {
         this.playerService = playerService;
     }
 
-    public Optional<Player> findPlayerById(int id) {
+    public Player findPlayerById(int id) {
         log.info("findPlayerById {}", id);
-        return Optional.ofNullable(toPlayer(openDotaApiClient.findPlayerById(id)));
+        return toPlayer(openDotaApiClient.findPlayerById(id).orElseThrow(() -> new IllegalStateException("Player not found")));
     }
 
     public List<Peer> findAllPeersByPlayerId(int id) {

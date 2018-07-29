@@ -37,14 +37,14 @@ public class UserController {
     @GetMapping("/collection/add")
     public String addToCollection(@RequestParam("id") Integer id,
                                   @AuthenticationPrincipal User currentUser) {
-        userService.saveToCollection(playerService.findById(id).orElse(null), currentUser.getUsername());
+        userService.saveToCollection(playerService.findById(id), currentUser.getUsername());
         return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_PLAYERS_CONTROLLER_REQUEST_MAPPING;
     }
 
     @GetMapping("/collection/delete")
     public String removeFromCollection(@RequestParam("id") Integer id,
                                        @AuthenticationPrincipal User currentUser) {
-        userService.deleteFromCollection(playerService.findById(id).orElse(null), currentUser.getUsername());
+        userService.deleteFromCollection(playerService.findById(id), currentUser.getUsername());
         return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_PLAYERS_CONTROLLER_REQUEST_MAPPING;
     }
 

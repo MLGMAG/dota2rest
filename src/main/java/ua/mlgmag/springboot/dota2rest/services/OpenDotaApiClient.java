@@ -10,6 +10,7 @@ import ua.mlgmag.springboot.dota2rest.dto.PlayerDto;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 @Component
 @Slf4j
@@ -22,12 +23,12 @@ public class OpenDotaApiClient {
         this.restTemplate = restTemplate;
     }
 
-    public PlayerDto findPlayerById(int id) {
+    public Optional<PlayerDto> findPlayerById(int id) {
         StringBuilder url = new StringBuilder(PlayerConstants.HTTP_REQUEST_PLAYERS);
         url.append(id);
         try {
             log.info("findPlayerById {}", id);
-            return restTemplate.getForObject(new URI(url.toString()), PlayerDto.class);
+            return Optional.ofNullable(restTemplate.getForObject(new URI(url.toString()), PlayerDto.class));
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

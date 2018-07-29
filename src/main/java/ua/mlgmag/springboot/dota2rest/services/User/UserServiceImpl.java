@@ -10,7 +10,6 @@ import ua.mlgmag.springboot.dota2rest.model.User;
 import ua.mlgmag.springboot.dota2rest.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -44,9 +43,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findById(UUID id) {
+    public User findById(UUID id) {
         log.info("findById {}", id);
-        return userRepository.findById(id);
+        return userRepository.findById(id).orElseThrow(() -> new IllegalStateException("User not found"));
     }
 
     @Override

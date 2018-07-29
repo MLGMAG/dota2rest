@@ -15,7 +15,6 @@ import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.model.User;
 import ua.mlgmag.springboot.dota2rest.services.ApiService;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -52,7 +51,7 @@ public class DatabasePlayersController {
 
     @GetMapping("/{id}")
     public String player(@PathVariable("id") Integer id, Model model) {
-        Player player = playerService.findById(id).orElse(null);
+        Player player = playerService.findById(id);
 
         if (player == null) {
             model.addAttribute("title", "Object not found");
@@ -67,25 +66,21 @@ public class DatabasePlayersController {
 
     @GetMapping("/save")
     public String savePlayer(@RequestParam(value = "id") Integer id) {
-        Optional<Player> playerOptional = apiService.findPlayerById(id);
-
-        if (!playerOptional.isPresent()) {
+        try {
+            playerService.save(apiService.findPlayerById(id));
+            return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_PLAYERS_CONTROLLER_REQUEST_MAPPING;
+        } catch (IllegalStateException e) {
             return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_PLAYERS_CONTROLLER_REQUEST_MAPPING + "?saveError";
         }
-
-        playerService.save(playerOptional.get());
-        return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_PLAYERS_CONTROLLER_REQUEST_MAPPING;
     }
 
     @GetMapping("/delete")
     public String deletePlayer(@RequestParam("id") Integer id) {
-        Optional<Player> player = playerService.findById(id);
-
-        if (!player.isPresent()) {
+        try {
+            playerService.delete(playerService.findById(id));
+            return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_PLAYERS_CONTROLLER_REQUEST_MAPPING;
+        } catch (IllegalStateException e) {
             return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_PLAYERS_CONTROLLER_REQUEST_MAPPING + "?deleteError";
         }
-
-        playerService.delete(player.get());
-        return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_PLAYERS_CONTROLLER_REQUEST_MAPPING;
     }
 }
