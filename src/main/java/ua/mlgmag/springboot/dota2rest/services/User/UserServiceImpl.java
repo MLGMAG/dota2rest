@@ -2,6 +2,7 @@ package ua.mlgmag.springboot.dota2rest.services.User;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import ua.mlgmag.springboot.dota2rest.definition.UserService;
@@ -31,18 +32,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER')")
     public void update(User user) {
         log.info("update {}", user);
         userRepository.save(user);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void delete(User user) {
         log.info("delete {}", user);
         userRepository.delete(user);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER')")
     public User findById(UUID id) {
         log.info("findById {}", id);
         return userRepository.findById(id).orElseThrow(() -> new IllegalStateException("User not found"));
@@ -56,6 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER')")
     public User findByEmail(String email) {
         log.info("findByUsername {}", email);
         return userRepository.findByEmail(email)
@@ -63,6 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER')")
     public void saveToCollection(Player player, String username) {
         User user = findByUsername(username);
         user.getPlayerCollection().add(player);
@@ -71,6 +77,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER')")
     public void deleteFromCollection(Player player, String username) {
         User user = findByUsername(username);
         user.setPlayerCollection(user.getPlayerCollection().stream()
@@ -112,6 +119,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER')")
     public List<User> findAll() {
         log.info("findAll");
         return userRepository.findAll();
