@@ -2,6 +2,7 @@ package ua.mlgmag.springboot.dota2rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,8 @@ public class SecurityController {
     }
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(@AuthenticationPrincipal User currentUser, Model model) {
+        model.addAttribute("currentUser", currentUser);
         model.addAttribute("title", "Home");
         return "home";
     }

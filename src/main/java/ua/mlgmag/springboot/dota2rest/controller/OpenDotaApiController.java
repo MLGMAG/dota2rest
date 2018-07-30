@@ -1,12 +1,14 @@
 package ua.mlgmag.springboot.dota2rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.mlgmag.springboot.dota2rest.constants.UrlMappingConstants;
 import ua.mlgmag.springboot.dota2rest.definition.PlayerService;
 import ua.mlgmag.springboot.dota2rest.model.Player;
+import ua.mlgmag.springboot.dota2rest.model.User;
 import ua.mlgmag.springboot.dota2rest.services.ApiService;
 
 @Controller
@@ -24,7 +26,9 @@ public class OpenDotaApiController {
     }
 
     @PostMapping("/players")
-    public String playerPost(@ModelAttribute("player") Player modelPlayer, Model model) {
+    public String playerPost(@ModelAttribute("player") Player modelPlayer,
+                             @AuthenticationPrincipal User currentUser, Model model) {
+        model.addAttribute("currentUser", currentUser);
         try {
             Player player = apiService.findPlayerById(modelPlayer.getSteamId32());
             player.setIsInDB(playerService.existInDatabaseById(player.getSteamId32()));
@@ -39,7 +43,9 @@ public class OpenDotaApiController {
     }
 
     @GetMapping("/players/{id}/peers")
-    public String playerPeers(@PathVariable(value = "id") Integer id, Model model) {
+    public String playerPeers(@PathVariable(value = "id") Integer id,
+                              @AuthenticationPrincipal User currentUser, Model model) {
+        model.addAttribute("currentUser", currentUser);
         try {
             Player player = apiService.findPlayerById(id);
             model.addAttribute("playerName", player.getName());

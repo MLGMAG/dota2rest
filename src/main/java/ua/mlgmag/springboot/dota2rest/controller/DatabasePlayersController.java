@@ -41,6 +41,7 @@ public class DatabasePlayersController {
                           Model model) {
         model.addAttribute("userCollectionPlayersIds", userService.findByUsername(currentUser.getUsername()).getPlayerCollection()
                 .stream().map(Player::getSteamId32).collect(Collectors.toSet()));
+        model.addAttribute("currentUser", currentUser);
         model.addAttribute("players", playerService.findAll());
         model.addAttribute(new Player());
         model.addAttribute("deleteError", deleteError != null);
@@ -50,8 +51,10 @@ public class DatabasePlayersController {
     }
 
     @GetMapping("/{id}")
-    public String player(@PathVariable("id") Integer id, Model model) {
+    public String player(@PathVariable("id") Integer id,
+                         @AuthenticationPrincipal User currentUser, Model model) {
         Player player = playerService.findById(id);
+        model.addAttribute("currentUser", currentUser);
 
         if (player == null) {
             model.addAttribute("title", "Object not found");
