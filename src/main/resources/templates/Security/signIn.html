@@ -36,6 +36,17 @@
                                 </div>
                             </div>
 
+                            <div th:if="${updateSuccess}">
+                                <div class="alert alert-success fade show" role="alert">
+                                    Your account successfully updated
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <br>
+                                    Please log in
+                                </div>
+                            </div>
+
                             <div th:if="${error}">
                                 <div class="alert alert-danger fade show" role="alert">
                                     Invalid username or password

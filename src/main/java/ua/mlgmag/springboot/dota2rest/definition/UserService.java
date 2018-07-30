@@ -24,4 +24,6 @@ public interface UserService extends GenericService<User, UUID> {
 
     Boolean saveValidation(User user, Model model);
 
+    Boolean updateValidation(User updatedUser, Model model);
+
 }

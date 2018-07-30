@@ -2,6 +2,7 @@ package ua.mlgmag.springboot.dota2rest.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import ua.mlgmag.springboot.dota2rest.constants.PlayerConstants;
@@ -23,6 +24,7 @@ public class OpenDotaApiClient {
         this.restTemplate = restTemplate;
     }
 
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public Optional<PlayerDto> findPlayerById(int id) {
         StringBuilder url = new StringBuilder(PlayerConstants.HTTP_REQUEST_PLAYERS);
         url.append(id);
@@ -34,6 +36,7 @@ public class OpenDotaApiClient {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public PeerDto[] findPeersByPlayerId(int id) {
         StringBuilder url = new StringBuilder(PlayerConstants.HTTP_REQUEST_PLAYERS);
         url.append(id).append("/peers");

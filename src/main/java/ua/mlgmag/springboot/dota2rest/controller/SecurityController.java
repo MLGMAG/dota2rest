@@ -61,11 +61,13 @@ public class SecurityController {
     public String loginPage(@RequestParam(value = "error", required = false) String error,
                             @RequestParam(value = "logout", required = false) String logout,
                             @RequestParam(value = "regSuccess", required = false) String regSuccess,
+                            @RequestParam(value = "updateSuccess", required = false) String updateSuccess,
                             Model model) {
         model.addAttribute(new User());
         model.addAttribute("error", error != null);
         model.addAttribute("logout", logout != null);
         model.addAttribute("regSuccess", regSuccess != null);
+        model.addAttribute("updateSuccess", updateSuccess != null);
         model.addAttribute("title", "Sign In");
         return "Security/signIn";
     }

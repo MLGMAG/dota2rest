@@ -32,10 +32,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public void update(User user) {
         log.info("update {}", user);
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public User findById(UUID id) {
         log.info("findById {}", id);
         return userRepository.findById(id).orElseThrow(() -> new IllegalStateException("User not found"));
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public User findByEmail(String email) {
         log.info("findByUsername {}", email);
         return userRepository.findByEmail(email)
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public void saveToCollection(Player player, String username) {
         User user = findByUsername(username);
         user.getPlayerCollection().add(player);
@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public void deleteFromCollection(Player player, String username) {
         User user = findByUsername(username);
         user.setPlayerCollection(user.getPlayerCollection().stream()
@@ -119,7 +119,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER')")
+    public Boolean updateValidation(User updatedUser, Model model) {
+        Boolean Error = false;
+        User user = findById(updatedUser.getId());
+
+        if (!user.getUsername().equals(updatedUser.getUsername())) {
+            Error = usernameValidation(updatedUser.getUsername(), model);
+        }
+
+        if (!user.getEmail().equals(updatedUser.getEmail())) {
+            Error = emailValidation(updatedUser.getEmail(), model);
+        }
+
+        return Error;
+    }
+
+    @Override
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public List<User> findAll() {
         log.info("findAll");
         return userRepository.findAll();
