@@ -107,7 +107,9 @@ public class ApiService {
                 input.getId(),
                 input.getLocalized_name(),
                 UrlMappingConstants.DOTABUFF_URL_HEROES_ASSERTS +
-                        input.getLocalized_name().toLowerCase().replace(" ", "-")
+                        input.getLocalized_name().toLowerCase()
+                                .replace(" ", "-")
+                                .replace("'", "")
                         + ".jpg");
     }
 
