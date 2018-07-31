@@ -102,7 +102,7 @@ public class ApiService {
                 input.getAssists());
     }
 
-    public Hero toHero(HeroDto input) {
+    private Hero toHero(HeroDto input) {
         return new Hero(
                 input.getId(),
                 input.getLocalized_name(),
