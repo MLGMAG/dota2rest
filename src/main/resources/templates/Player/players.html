@@ -66,6 +66,9 @@
             <a th:href="@{'/api/openDotaApi/players/' + *{steamId32} + '/peers'}"
                class="btn btn-warning">PEERS</a>
             &nbsp
+            <a th:href="@{'/api/openDotaApi/players/' + *{steamId32} + '/matches'}"
+               class="btn btn-warning">MATCHES</a>
+            &nbsp
             <a th:href="@{/database/players/delete/(id=*{steamId32})}" class="btn btn-danger">DELETE</a>
         </td>
     </tr>
