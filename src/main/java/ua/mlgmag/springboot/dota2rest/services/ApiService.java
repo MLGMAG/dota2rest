@@ -48,7 +48,7 @@ public class ApiService {
     public List<Match> findMatchesByPlayerId(int id) {
         List<Hero> heroes = heroService.findAll();
         log.info("findMatchesByPlayerId {}", id);
-        return Arrays.stream(openDotaApiClient.findMatchesByPlayerId(id)).map(matchDto -> toMatch(matchDto, heroes)).limit(50)
+        return Arrays.stream(openDotaApiClient.findMatchesByPlayerId(id)).map(matchDto -> toMatch(matchDto, heroes)).limit(250)
                 .collect(Collectors.toList());
     }
 
