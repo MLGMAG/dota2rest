@@ -4,10 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.mlgmag.springboot.dota2rest.constants.PlayerConstants;
+import ua.mlgmag.springboot.dota2rest.constants.UrlMappingConstants;
+import ua.mlgmag.springboot.dota2rest.definition.HeroService;
 import ua.mlgmag.springboot.dota2rest.definition.PlayerService;
-import ua.mlgmag.springboot.dota2rest.dto.PeerDto;
-import ua.mlgmag.springboot.dota2rest.dto.PlayerDto;
-import ua.mlgmag.springboot.dota2rest.dto.PlayerProfileDto;
+import ua.mlgmag.springboot.dota2rest.dto.*;
+import ua.mlgmag.springboot.dota2rest.model.Hero;
+import ua.mlgmag.springboot.dota2rest.model.Match;
 import ua.mlgmag.springboot.dota2rest.model.Peer;
 import ua.mlgmag.springboot.dota2rest.model.Player;
 
@@ -23,10 +25,13 @@ public class ApiService {
 
     private final PlayerService playerService;
 
+    private final HeroService heroService;
+
     @Autowired
-    public ApiService(OpenDotaApiClient openDotaApiClient, PlayerService playerService) {
+    public ApiService(OpenDotaApiClient openDotaApiClient, PlayerService playerService, HeroService heroService) {
         this.openDotaApiClient = openDotaApiClient;
         this.playerService = playerService;
+        this.heroService = heroService;
     }
 
     public Player findPlayerById(int id) {
@@ -37,6 +42,18 @@ public class ApiService {
     public List<Peer> findAllPeersByPlayerId(int id) {
         log.info("findAllPeersByPlayerId {}", id);
         return Arrays.stream(openDotaApiClient.findPeersByPlayerId(id)).map(this::toPeer).filter(peer -> peer.getGames() > 25)
+                .collect(Collectors.toList());
+    }
+
+    public List<Match> findMatchesByPlayerId(int id) {
+        log.info("findMatchesByPlayerId {}", id);
+        return Arrays.stream(openDotaApiClient.findMatchesByPlayerId(id)).map(this::toMatch).limit(50)
+                .collect(Collectors.toList());
+    }
+
+    public List<Hero> findAllHeroes() {
+        log.info("findAllHeroes");
+        return Arrays.stream(openDotaApiClient.findAllHeroes()).map(this::toHero)
                 .collect(Collectors.toList());
     }
 
@@ -69,6 +86,28 @@ public class ApiService {
                 validateInput.getCompetitive_rank(),
                 null,
                 null);
+    }
+
+    private Match toMatch(MatchDto input) {
+        return new Match(
+                input.getMatch_id(),
+                input.getRadiant_win(),
+                (input.getDuration() / 60) + " min",
+                input.getGame_mode(),
+                heroService.findById(input.getHero_id()).getName(),
+                input.getVersion(),
+                input.getKills(),
+                input.getDeaths(),
+                input.getAssists());
+    }
+
+    public Hero toHero(HeroDto input) {
+        return new Hero(
+                input.getId(),
+                input.getLocalized_name(),
+                UrlMappingConstants.DOTABUFF_URL_HEROES_ASSERTS +
+                        input.getLocalized_name().toLowerCase().replace(" ", "-")
+                        + ".jpg");
     }
 
     private PlayerDto playerDtoValidation(PlayerDto input) {

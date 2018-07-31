@@ -58,4 +58,30 @@ public class OpenDotaApiController {
             return "Player/peers";
         }
     }
+
+    @GetMapping("/players/{id}/matches")
+    public String playerMatches(@PathVariable(value = "id") Integer id,
+                                @AuthenticationPrincipal User currentUser, Model model) {
+        model.addAttribute("currentUser", currentUser);
+        try {
+            Player player = apiService.findPlayerById(id);
+            model.addAttribute("playerName", player.getName());
+            model.addAttribute("matches", apiService.findMatchesByPlayerId(id));
+            model.addAttribute("title", "Matches");
+            return "Player/matches";
+        } catch (IllegalStateException e) {
+            model.addAttribute("matches", null);
+            model.addAttribute("title", "Matches");
+            return "Player/matches";
+        }
+    }
+
+    @GetMapping("/heroes")
+    public String heroes(@AuthenticationPrincipal User currentUser, Model model) {
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("heroesNPE", "Error can't find heroes");
+        model.addAttribute("heroes", apiService.findAllHeroes());
+        model.addAttribute("title", "GameMode");
+        return "Player/heroes";
+    }
 }

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<th:block th:replace="templates :: header"></th:block>
+
+<body>
+
+<th:block th:replace="templates :: logout_navbar"></th:block>
+
+<div th:unless="${#lists.isEmpty(heroes)}">
+    <h1 class="page-title" th:text="${title}"></h1>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 ml-auto" th:unless="${title} == 'Database heroes'">
+                <a th:href="@{/database/heroes/updateHeroes}" class="btn btn-success"
+                   style="margin-bottom: 30px; margin-left: 60px;">
+                    Save all heroes to Database</a>
+            </div>
+
+            <div class="col-2 mr-auto" th:if="${updateSuccess}">
+                <div class="alert alert-success fade show" role="alert">
+                    Heroes successfully updated
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div class="col-2 ml-auto" th:if="${title} == 'Database heroes'">
+                <a th:href="@{/database/heroes/updateHeroes}" class="btn btn-success"
+                   style="margin-bottom: 30px; margin-left: 120px;">
+                    Update all heroes</a>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-hover">
+
+        <thead>
+        <tr class="active">
+            <th>Icon</th>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+        </thead>
+
+        <tbody th:each="hero : ${heroes}">
+        <tr th:object="${hero}">
+            <td><img th:src="*{iconUrl}" alt="No image" height="72" width="128"></td>
+            <td class="data pad-top28" th:text="*{id}"></td>
+            <td class="data pad-top28" th:text="*{name}"></td>
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>
+
+<div th:if="${#lists.isEmpty(heroes)}" style="margin-top: 30px;">
+    <h4 class="text-center" th:text="${heroesNPE}"></h4>
+    <div class="container-fluid">
+        <div class="col-2 ml-auto">
+            <a th:href="@{/database/heroes/updateHeroes}" class="btn btn-success"
+               style="margin-bottom: 30px; margin-left: 120px;">
+                Update all heroes</a>
+        </div>
+    </div>
+</div>
+
+<th:block th:include="templates :: allJss"></th:block>
+
+</body>
+</html>

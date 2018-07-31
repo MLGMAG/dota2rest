@@ -8,4 +8,6 @@ public class PlayerConstants {
 
     public final static String HTTP_REQUEST_PLAYERS = "https://api.opendota.com/api/players/";
 
+    public final static String HTTP_REQUEST_OPEN_DOTA_API = "https://api.opendota.com/api/";
+
 }

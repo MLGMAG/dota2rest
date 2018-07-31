@@ -44,3 +44,12 @@ player_id                 INTEGER         NOT NULL,
 FOREIGN KEY(user_id)      REFERENCES users(id),
 FOREIGN KEY(player_id)    REFERENCES players(steam_id32)
 );
+
+CREATE TABLE heroes (
+
+id                        INTEGER         NOT NULL,
+name                      VARCHAR(255)    NOT NULL UNIQUE,
+icon_url                  VARCHAR(255)    NOT NULL UNIQUE,
+
+PRIMARY KEY(id)
+);

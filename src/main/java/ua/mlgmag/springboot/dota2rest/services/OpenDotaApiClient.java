@@ -6,6 +6,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import ua.mlgmag.springboot.dota2rest.constants.PlayerConstants;
+import ua.mlgmag.springboot.dota2rest.dto.HeroDto;
+import ua.mlgmag.springboot.dota2rest.dto.MatchDto;
 import ua.mlgmag.springboot.dota2rest.dto.PeerDto;
 import ua.mlgmag.springboot.dota2rest.dto.PlayerDto;
 
@@ -43,6 +45,28 @@ public class OpenDotaApiClient {
         try {
             log.info("findPeersByPlayerId {}", id);
             return restTemplate.getForObject(new URI(url.toString()), PeerDto[].class);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public MatchDto[] findMatchesByPlayerId(Integer id) {
+        StringBuilder url = new StringBuilder(PlayerConstants.HTTP_REQUEST_PLAYERS);
+        url.append(id).append("/matches");
+        try {
+            log.info("findMatchesByPlayerId {}", id);
+            return restTemplate.getForObject(new URI(url.toString()), MatchDto[].class);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public HeroDto[] findAllHeroes() {
+        StringBuilder url = new StringBuilder(PlayerConstants.HTTP_REQUEST_OPEN_DOTA_API);
+        url.append("heroes");
+        log.info("findAllHeroes");
+        try {
+            return restTemplate.getForObject(new URI(url.toString()), HeroDto[].class);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
