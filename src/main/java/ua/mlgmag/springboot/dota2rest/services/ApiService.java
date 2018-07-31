@@ -46,8 +46,9 @@ public class ApiService {
     }
 
     public List<Match> findMatchesByPlayerId(int id) {
+        List<Hero> heroes = heroService.findAll();
         log.info("findMatchesByPlayerId {}", id);
-        return Arrays.stream(openDotaApiClient.findMatchesByPlayerId(id)).map(this::toMatch).limit(50)
+        return Arrays.stream(openDotaApiClient.findMatchesByPlayerId(id)).map(matchDto -> toMatch(matchDto, heroes)).limit(50)
                 .collect(Collectors.toList());
     }
 
@@ -88,13 +89,13 @@ public class ApiService {
                 null);
     }
 
-    private Match toMatch(MatchDto input) {
+    private Match toMatch(MatchDto input, List<Hero> heroes) {
         return new Match(
                 input.getMatch_id(),
                 input.getRadiant_win(),
                 (input.getDuration() / 60) + " min",
                 input.getGame_mode(),
-                heroService.findById(input.getHero_id()).getName(),
+                heroes.get(input.getHero_id() - 1).getName(),
                 input.getVersion(),
                 input.getKills(),
                 input.getDeaths(),
