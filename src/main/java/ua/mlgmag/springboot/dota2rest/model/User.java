@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import ua.mlgmag.springboot.dota2rest.enums.Authority;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -45,7 +46,7 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "user_players", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "player_id"))
     @Column(name = "player")
-    private Set<Player> playerCollection;
+    private Set<Player> playerCollection = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Authority.class, fetch = FetchType.EAGER)
