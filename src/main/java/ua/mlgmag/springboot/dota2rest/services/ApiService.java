@@ -14,7 +14,9 @@ import ua.mlgmag.springboot.dota2rest.model.Peer;
 import ua.mlgmag.springboot.dota2rest.model.Player;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,11 +47,10 @@ public class ApiService {
                 .collect(Collectors.toList());
     }
 
-    public List<Match> findMatchesByPlayerId(int id) {
-        List<Hero> heroes = heroService.findAll();
+    public Set<Match> findMatchesByPlayerId(int id) {
         log.info("findMatchesByPlayerId {}", id);
-        return Arrays.stream(openDotaApiClient.findMatchesByPlayerId(id)).map(matchDto -> toMatch(matchDto, heroes)).limit(250)
-                .collect(Collectors.toList());
+        return Arrays.stream(openDotaApiClient.findMatchesByPlayerId(id)).map(this::toMatch).filter(match -> match.getVersion() != null)
+                .collect(Collectors.toSet());
     }
 
     public List<Hero> findAllHeroes() {
@@ -85,21 +86,19 @@ public class ApiService {
                 PlayerConstants.PLAYER_PROFILE_PREFIX.concat(steamId64),
                 validateInput.getSolo_competitive_rank(),
                 validateInput.getCompetitive_rank(),
-                null,
+                new HashSet<>(),
+                new HashSet<>(),
                 null);
     }
 
-    private Match toMatch(MatchDto input, List<Hero> heroes) {
+    private Match toMatch(MatchDto input) {
         return new Match(
                 input.getMatch_id(),
                 input.getRadiant_win(),
                 (input.getDuration() / 60) + " min",
                 input.getGame_mode(),
-                heroes.get(input.getHero_id() - 1).getName(),
                 input.getVersion(),
-                input.getKills(),
-                input.getDeaths(),
-                input.getAssists());
+                new HashSet<>());
     }
 
     private Hero toHero(HeroDto input) {

@@ -39,7 +39,7 @@ public class DatabaseHeroesController {
 
     @GetMapping("/updateHeroes")
     public String updateHeroes() {
-        heroService.saveAllEntities(apiService.findAllHeroes());
+        heroService.saveAllHeroes(apiService.findAllHeroes());
         return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_HEROES_CONTROLLER_REQUEST_MAPPING + "?updateSuccess";
     }
 }

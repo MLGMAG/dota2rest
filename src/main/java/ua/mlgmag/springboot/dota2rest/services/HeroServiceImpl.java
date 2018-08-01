@@ -46,8 +46,8 @@ public class HeroServiceImpl implements HeroService {
     }
 
     @Override
-    public void saveAllEntities(List<Hero> heroes) {
-        log.info("saveAllEntities {}", heroes);
+    public void saveAllHeroes(List<Hero> heroes) {
+        log.info("saveAllHeroes {}", heroes);
         heroRepository.saveAll(heroes);
     }
 }

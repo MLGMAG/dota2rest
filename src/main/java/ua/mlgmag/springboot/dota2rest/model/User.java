@@ -45,7 +45,6 @@ public class User implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "user_players", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "player_id"))
-    @Column(name = "player")
     private Set<Player> playerCollection = new HashSet<>();
 
     @Enumerated(EnumType.STRING)

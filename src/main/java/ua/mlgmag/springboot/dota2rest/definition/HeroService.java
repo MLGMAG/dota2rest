@@ -5,5 +5,5 @@ import ua.mlgmag.springboot.dota2rest.model.Hero;
 import java.util.List;
 
 public interface HeroService extends GenericService<Hero, Integer> {
-    void saveAllEntities(List<Hero> heroes);
+    void saveAllHeroes(List<Hero> heroes);
 }

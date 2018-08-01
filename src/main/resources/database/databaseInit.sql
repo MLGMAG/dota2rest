@@ -20,7 +20,7 @@ CREATE TABLE user_authorities (
 user_id                   uuid            NOT NULL,
 authority_id              VARCHAR(255)    NOT NULL,
 
-FOREIGN KEY(user_id)           REFERENCES users(id)
+FOREIGN KEY(user_id)      REFERENCES users(id)
 );
 
 CREATE TABLE players (
@@ -52,4 +52,24 @@ name                      VARCHAR(255)    NOT NULL UNIQUE,
 icon_url                  VARCHAR(255)    NOT NULL UNIQUE,
 
 PRIMARY KEY(id)
+);
+
+CREATE TABLE matches (
+
+id                        BIGINT          NOT NULL,
+radiant_win               boolean,
+duration                  VARCHAR(255)    NOT NULL,
+game_mode                 INTEGER         NOT NULL,
+patch                     INTEGER,
+
+PRIMARY KEY(id)
+);
+
+CREATE TABLE player_match (
+
+player_id                 INTEGER         NOT NULL,
+match_id                  BIGINT          NOT NULL,
+
+FOREIGN KEY(player_id)    REFERENCES players(steam_id32),
+FOREIGN KEY(match_id)     REFERENCES matches(id)
 );

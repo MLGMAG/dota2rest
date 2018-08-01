@@ -64,13 +64,11 @@ public class OpenDotaApiController {
                                 @AuthenticationPrincipal User currentUser, Model model) {
         model.addAttribute("currentUser", currentUser);
         try {
-            Player player = apiService.findPlayerById(id);
-            model.addAttribute("playerName", player.getName());
             model.addAttribute("matches", apiService.findMatchesByPlayerId(id));
             model.addAttribute("title", "Matches");
             return "Player/matches";
         } catch (IllegalStateException e) {
-            model.addAttribute("matches", null);
+            model.addAttribute("matchesNPE", "Error can't find matches");
             model.addAttribute("title", "Matches");
             return "Player/matches";
         }

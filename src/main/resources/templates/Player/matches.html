@@ -7,8 +7,9 @@
 
 <th:block th:replace="templates :: logout_navbar"></th:block>
 
-<div th:unless="${matches} == null">
-    <h1 class="page-title" th:text="${playerName} + ' ' + 'matches'"></h1>
+<div th:unless="${#lists.isEmpty(matches)}">
+    <h1 class="page-title" th:text="${title}"></h1>
+
 
     <table class="table table-bordered table-hover">
 
@@ -18,11 +19,7 @@
             <th>Radiant Win</th>
             <th>Duration</th>
             <th>Game Mode</th>
-            <th>Hero</th>
             <th>Dota 2 patch</th>
-            <th>Kills</th>
-            <th>Deaths</th>
-            <th>Assists</th>
         </tr>
         </thead>
 
@@ -32,11 +29,7 @@
             <td class="data pad-top28" th:text="*{radiantWin}"></td>
             <td class="data pad-top28" th:text="*{duration}"></td>
             <td class="data pad-top28" th:text="*{gameMode}"></td>
-            <td class="data pad-top28" th:text="*{heroName}"></td>
             <td class="data pad-top28" th:text="*{version}"></td>
-            <td class="data pad-top28" th:text="*{kills}"></td>
-            <td class="data pad-top28" th:text="*{deaths}"></td>
-            <td class="data pad-top28" th:text="*{assists}"></td>
         </tr>
         </tbody>
 
@@ -44,8 +37,8 @@
 
 </div>
 
-<div th:if="${matches} == null" style="margin-top: 30px;">
-    <h4 class="text-center">Player does not exist or not play dota 2</h4>
+<div th:if="${#lists.isEmpty(matches)}" style="margin-top: 30px;">
+    <h4 class="text-center" th:text="${matchesNPE}"></h4>
 </div>
 
 <th:block th:include="templates :: allJss"></th:block>
