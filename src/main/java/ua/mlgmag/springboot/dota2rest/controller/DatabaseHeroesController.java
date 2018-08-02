@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ua.mlgmag.springboot.dota2rest.constants.UrlMappingConstants;
 import ua.mlgmag.springboot.dota2rest.definition.HeroService;
 import ua.mlgmag.springboot.dota2rest.model.User;
-import ua.mlgmag.springboot.dota2rest.services.ApiService;
+import ua.mlgmag.springboot.dota2rest.services.OpenDotaApi.OpenDotaApiService;
 
 @Controller
 @RequestMapping(UrlMappingConstants.DATABASE_HEROES_CONTROLLER_REQUEST_MAPPING)
@@ -18,12 +18,12 @@ public class DatabaseHeroesController {
 
     private final HeroService heroService;
 
-    private final ApiService apiService;
+    private final OpenDotaApiService openDotaApiService;
 
     @Autowired
-    public DatabaseHeroesController(HeroService heroService, ApiService apiService) {
+    public DatabaseHeroesController(HeroService heroService, OpenDotaApiService openDotaApiService) {
         this.heroService = heroService;
-        this.apiService = apiService;
+        this.openDotaApiService = openDotaApiService;
     }
 
     @GetMapping
@@ -39,7 +39,7 @@ public class DatabaseHeroesController {
 
     @GetMapping("/updateHeroes")
     public String updateHeroes() {
-        heroService.saveAllHeroes(apiService.findAllHeroes());
+        heroService.saveAllHeroes(openDotaApiService.findAllHeroes());
         return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_HEROES_CONTROLLER_REQUEST_MAPPING + "?updateSuccess";
     }
 }

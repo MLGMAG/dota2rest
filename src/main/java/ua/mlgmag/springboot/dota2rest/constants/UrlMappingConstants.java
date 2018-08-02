@@ -8,8 +8,6 @@ public class UrlMappingConstants {
 
     public final static String DATABASE_HEROES_CONTROLLER_REQUEST_MAPPING = "database/heroes";
 
-    public final static String DATABASE_MATCHES_CONTROLLER_REQUEST_MAPPING = "database/matches";
-
     public final static String USER_CONTROLLER_REQUEST_MAPPING = "user";
 
     public final static String OPEN_DOTA_API_CONTROLLER_REQUEST_MAPPING = "/api/openDotaApi";

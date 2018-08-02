@@ -53,23 +53,3 @@ icon_url                  VARCHAR(255)    NOT NULL UNIQUE,
 
 PRIMARY KEY(id)
 );
-
-CREATE TABLE matches (
-
-id                        BIGINT          NOT NULL,
-radiant_win               boolean,
-duration                  VARCHAR(255)    NOT NULL,
-game_mode                 INTEGER         NOT NULL,
-patch                     INTEGER,
-
-PRIMARY KEY(id)
-);
-
-CREATE TABLE player_match (
-
-player_id                 INTEGER         NOT NULL,
-match_id                  BIGINT          NOT NULL,
-
-FOREIGN KEY(player_id)    REFERENCES players(steam_id32),
-FOREIGN KEY(match_id)     REFERENCES matches(id)
-);

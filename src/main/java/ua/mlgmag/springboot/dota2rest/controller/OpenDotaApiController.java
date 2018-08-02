@@ -9,19 +9,19 @@ import ua.mlgmag.springboot.dota2rest.constants.UrlMappingConstants;
 import ua.mlgmag.springboot.dota2rest.definition.PlayerService;
 import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.model.User;
-import ua.mlgmag.springboot.dota2rest.services.ApiService;
+import ua.mlgmag.springboot.dota2rest.services.OpenDotaApi.OpenDotaApiService;
 
 @Controller
 @RequestMapping(UrlMappingConstants.OPEN_DOTA_API_CONTROLLER_REQUEST_MAPPING)
 public class OpenDotaApiController {
 
-    private final ApiService apiService;
+    private final OpenDotaApiService openDotaApiService;
 
     private final PlayerService playerService;
 
     @Autowired
-    public OpenDotaApiController(ApiService apiService, PlayerService playerService) {
-        this.apiService = apiService;
+    public OpenDotaApiController(OpenDotaApiService openDotaApiService, PlayerService playerService) {
+        this.openDotaApiService = openDotaApiService;
         this.playerService = playerService;
     }
 
@@ -30,7 +30,7 @@ public class OpenDotaApiController {
                              @AuthenticationPrincipal User currentUser, Model model) {
         model.addAttribute("currentUser", currentUser);
         try {
-            Player player = apiService.findPlayerById(modelPlayer.getSteamId32());
+            Player player = openDotaApiService.findPlayerById(modelPlayer.getSteamId32());
             player.setIsInDB(playerService.existInDatabaseById(player.getSteamId32()));
             model.addAttribute("player", player);
             model.addAttribute("title", "Player");
@@ -47,9 +47,9 @@ public class OpenDotaApiController {
                               @AuthenticationPrincipal User currentUser, Model model) {
         model.addAttribute("currentUser", currentUser);
         try {
-            Player player = apiService.findPlayerById(id);
+            Player player = openDotaApiService.findPlayerById(id);
             model.addAttribute("playerName", player.getName());
-            model.addAttribute("peers", apiService.findAllPeersByPlayerId(id));
+            model.addAttribute("peers", openDotaApiService.findAllPeersByPlayerId(id));
             model.addAttribute("title", "Pears");
             return "Player/peers";
         } catch (IllegalStateException e) {
@@ -59,13 +59,14 @@ public class OpenDotaApiController {
         }
     }
 
-    @GetMapping("/players/{id}/matches")
+    @GetMapping("/players/{id}/recentMatches")
     public String playerMatches(@PathVariable(value = "id") Integer id,
                                 @AuthenticationPrincipal User currentUser, Model model) {
         model.addAttribute("currentUser", currentUser);
         try {
-            model.addAttribute("matches", apiService.findMatchesByPlayerId(id));
-            model.addAttribute("title", "Matches");
+            model.addAttribute("player", playerService.findById(id));
+            model.addAttribute("matches", openDotaApiService.findRecentMatchesByPlayerId(id));
+            model.addAttribute("title", "Recent matches");
             return "Player/matches";
         } catch (IllegalStateException e) {
             model.addAttribute("matchesNPE", "Error can't find matches");
@@ -78,7 +79,7 @@ public class OpenDotaApiController {
     public String heroes(@AuthenticationPrincipal User currentUser, Model model) {
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("heroesNPE", "Error can't find heroes");
-        model.addAttribute("heroes", apiService.findAllHeroes());
+        model.addAttribute("heroes", openDotaApiService.findAllHeroes());
         model.addAttribute("title", "GameMode");
         return "Player/heroes";
     }

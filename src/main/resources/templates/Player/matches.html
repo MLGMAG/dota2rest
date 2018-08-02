@@ -8,7 +8,7 @@
 <th:block th:replace="templates :: logout_navbar"></th:block>
 
 <div th:unless="${#lists.isEmpty(matches)}">
-    <h1 class="page-title" th:text="${title}"></h1>
+    <h1 class="page-title" th:text="${player.name} + ' recent matches'"></h1>
 
 
     <table class="table table-bordered table-hover">
@@ -16,20 +16,30 @@
         <thead>
         <tr class="active">
             <th>Match Id</th>
-            <th>Radiant Win</th>
+            <th>Hero</th>
+            <th>Result</th>
             <th>Duration</th>
             <th>Game Mode</th>
             <th>Dota 2 patch</th>
+            <th>Kills</th>
+            <th>Deaths</th>
+            <th>Assists</th>
         </tr>
         </thead>
 
         <tbody th:each="match : ${matches}">
         <tr th:object="${match}">
             <td class="data pad-top28" th:text="*{matchId}"></td>
-            <td class="data pad-top28" th:text="*{radiantWin}"></td>
+            <td><img th:src="*{heroAvatarUrl}" height="48" width="85"></td>
+            <td class="data pad-top28" th:if="*{result} == 'Radiant Victory'" style="color: lawngreen"
+                th:text="*{result}"></td>
+            <td class="data pad-top28" th:if="*{result} == 'Dire Victory'" style="color: red" th:text="*{result}"></td>
             <td class="data pad-top28" th:text="*{duration}"></td>
             <td class="data pad-top28" th:text="*{gameMode}"></td>
             <td class="data pad-top28" th:text="*{version}"></td>
+            <td class="data pad-top28" th:text="*{kills}"></td>
+            <td class="data pad-top28" th:text="*{deaths}"></td>
+            <td class="data pad-top28" th:text="*{assists}"></td>
         </tr>
         </tbody>
 

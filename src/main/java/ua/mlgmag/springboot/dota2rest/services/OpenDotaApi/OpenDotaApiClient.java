@@ -1,4 +1,4 @@
-package ua.mlgmag.springboot.dota2rest.services;
+package ua.mlgmag.springboot.dota2rest.services.OpenDotaApi;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class OpenDotaApiClient {
     }
 
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
-    public Optional<PlayerDto> findPlayerById(int id) {
+    Optional<PlayerDto> findPlayerById(int id) {
         StringBuilder url = new StringBuilder(PlayerConstants.HTTP_REQUEST_PLAYERS);
         url.append(id);
         try {
@@ -39,7 +39,7 @@ public class OpenDotaApiClient {
     }
 
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
-    public PeerDto[] findPeersByPlayerId(int id) {
+    PeerDto[] findPeersByPlayerId(int id) {
         StringBuilder url = new StringBuilder(PlayerConstants.HTTP_REQUEST_PLAYERS);
         url.append(id).append("/peers");
         try {
@@ -50,18 +50,18 @@ public class OpenDotaApiClient {
         }
     }
 
-    public MatchDto[] findMatchesByPlayerId(Integer id) {
+    MatchDto[] findRecentMatchesByPlayerId(Integer id) {
         StringBuilder url = new StringBuilder(PlayerConstants.HTTP_REQUEST_PLAYERS);
-        url.append(id).append("/matches");
+        url.append(id).append("/recentMatches");
         try {
-            log.info("findMatchesByPlayerId {}", id);
+            log.info("findRecentMatchesByPlayerId {}", id);
             return restTemplate.getForObject(new URI(url.toString()), MatchDto[].class);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public HeroDto[] findAllHeroes() {
+    HeroDto[] findAllHeroes() {
         StringBuilder url = new StringBuilder(PlayerConstants.HTTP_REQUEST_OPEN_DOTA_API);
         url.append("heroes");
         log.info("findAllHeroes");

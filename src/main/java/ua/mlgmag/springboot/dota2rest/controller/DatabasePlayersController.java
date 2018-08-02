@@ -13,7 +13,7 @@ import ua.mlgmag.springboot.dota2rest.definition.PlayerService;
 import ua.mlgmag.springboot.dota2rest.definition.UserService;
 import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.model.User;
-import ua.mlgmag.springboot.dota2rest.services.ApiService;
+import ua.mlgmag.springboot.dota2rest.services.OpenDotaApi.OpenDotaApiService;
 
 import java.util.stream.Collectors;
 
@@ -25,13 +25,13 @@ public class DatabasePlayersController {
 
     private final UserService userService;
 
-    private final ApiService apiService;
+    private final OpenDotaApiService openDotaApiService;
 
     @Autowired
-    public DatabasePlayersController(PlayerService playerService, UserService userService, ApiService apiService) {
+    public DatabasePlayersController(PlayerService playerService, UserService userService, OpenDotaApiService openDotaApiService) {
         this.playerService = playerService;
         this.userService = userService;
-        this.apiService = apiService;
+        this.openDotaApiService = openDotaApiService;
     }
 
     @GetMapping
@@ -70,7 +70,7 @@ public class DatabasePlayersController {
     @GetMapping("/save")
     public String savePlayer(@RequestParam(value = "id") Integer id) {
         try {
-            playerService.save(apiService.findPlayerById(id));
+            playerService.save(openDotaApiService.findPlayerById(id));
             return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_PLAYERS_CONTROLLER_REQUEST_MAPPING;
         } catch (IllegalStateException e) {
             return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_PLAYERS_CONTROLLER_REQUEST_MAPPING + "?saveError";

@@ -1,4 +1,4 @@
-package ua.mlgmag.springboot.dota2rest.services;
+package ua.mlgmag.springboot.dota2rest.services.OpenDotaApi;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class ApiService {
+public class OpenDotaApiService {
 
     private final OpenDotaApiClient openDotaApiClient;
 
@@ -30,7 +30,7 @@ public class ApiService {
     private final HeroService heroService;
 
     @Autowired
-    public ApiService(OpenDotaApiClient openDotaApiClient, PlayerService playerService, HeroService heroService) {
+    public OpenDotaApiService(OpenDotaApiClient openDotaApiClient, PlayerService playerService, HeroService heroService) {
         this.openDotaApiClient = openDotaApiClient;
         this.playerService = playerService;
         this.heroService = heroService;
@@ -47,9 +47,9 @@ public class ApiService {
                 .collect(Collectors.toList());
     }
 
-    public Set<Match> findMatchesByPlayerId(int id) {
+    public Set<Match> findRecentMatchesByPlayerId(int id) {
         log.info("findMatchesByPlayerId {}", id);
-        return Arrays.stream(openDotaApiClient.findMatchesByPlayerId(id)).map(this::toMatch).filter(match -> match.getVersion() != null)
+        return Arrays.stream(openDotaApiClient.findRecentMatchesByPlayerId(id)).map(this::toMatch).limit(10)
                 .collect(Collectors.toSet());
     }
 
@@ -92,13 +92,18 @@ public class ApiService {
     }
 
     private Match toMatch(MatchDto input) {
+        Hero hero = heroService.findById(input.getHero_id());
         return new Match(
                 input.getMatch_id(),
-                input.getRadiant_win(),
+                isRadiantWin(input.getRadiant_win()),
                 (input.getDuration() / 60) + " min",
                 input.getGame_mode(),
+                hero.getName(),
+                hero.getIconUrl(),
                 input.getVersion(),
-                new HashSet<>());
+                input.getKills(),
+                input.getDeaths(),
+                input.getAssists());
     }
 
     private Hero toHero(HeroDto input) {
@@ -132,5 +137,13 @@ public class ApiService {
 
         log.info("playerDtoValidation {}", input);
         return input;
+    }
+
+    private String isRadiantWin(Boolean input) {
+        if (input) {
+            return "Radiant Victory";
+        } else {
+            return "Dire Victory";
+        }
     }
 }

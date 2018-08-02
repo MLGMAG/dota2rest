@@ -54,7 +54,7 @@ public class UserController {
     public String addToCollection(@RequestParam("id") Integer id,
                                   @AuthenticationPrincipal User currentUser) {
         userService.saveToCollection(playerService.findById(id), currentUser.getUsername());
-        return UrlMappingConstants.REDIRECT + UrlMappingConstants.USER_CONTROLLER_REQUEST_MAPPING + "/profile?tab=collection-tab";
+        return UrlMappingConstants.REDIRECT + UrlMappingConstants.DATABASE_PLAYERS_CONTROLLER_REQUEST_MAPPING;
     }
 
     @PostMapping("/update")
