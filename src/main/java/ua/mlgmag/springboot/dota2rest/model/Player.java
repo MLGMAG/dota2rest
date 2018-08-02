@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString(exclude = {"users", "matches"})
+@ToString(exclude = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -39,9 +39,6 @@ public class Player {
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "playerCollection")
     private Set<User> users = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "players")
-    private Set<Match> matches = new HashSet<>();
 
     @Transient
     private Boolean isInDB;
