@@ -87,7 +87,6 @@ public class OpenDotaApiService {
                 validateInput.getSolo_competitive_rank(),
                 validateInput.getCompetitive_rank(),
                 new HashSet<>(),
-                new HashSet<>(),
                 null);
     }
 
