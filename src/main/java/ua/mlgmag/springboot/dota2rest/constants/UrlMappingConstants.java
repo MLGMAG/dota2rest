@@ -14,4 +14,6 @@ public class UrlMappingConstants {
 
     public final static String DOTABUFF_URL_HEROES_ASSERTS = "https://www.dotabuff.com/assets/heroes/";
 
+    public final static String GOOGLE_CAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s";
+
 }
