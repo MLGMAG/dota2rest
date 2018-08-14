@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.*;
 import ua.mlgmag.springboot.dota2rest.config.security.SecurityConfig;
 import ua.mlgmag.springboot.dota2rest.constants.UrlMappingConstants;
 import ua.mlgmag.springboot.dota2rest.enums.Authority;
+import ua.mlgmag.springboot.dota2rest.model.Player;
 import ua.mlgmag.springboot.dota2rest.model.User;
 import ua.mlgmag.springboot.dota2rest.services.PlayerServiceImpl;
 import ua.mlgmag.springboot.dota2rest.services.User.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(UrlMappingConstants.USER_CONTROLLER_REQUEST_MAPPING)
@@ -46,7 +49,8 @@ public class UserController {
         model.addAttribute("currentUser", userService.findByUsername(currentUser.getUsername()));
         model.addAttribute("updateUser", currentUser);
         model.addAttribute("authorities", ImmutableSet.of(Authority.USER, Authority.ADMIN));
-        model.addAttribute("players", userService.findByUsername(currentUser.getUsername()).getPlayerCollection());
+        model.addAttribute("players", userService.findByUsername(currentUser.getUsername()).getPlayerCollection()
+                .stream().sorted(Comparator.comparing(Player::getName)).collect(Collectors.toList()));
         return "User/Profile";
     }
 
